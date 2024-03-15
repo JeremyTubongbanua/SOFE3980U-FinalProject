@@ -13,9 +13,13 @@ test ('potential negative case', () => {
 })
 
 test('air time between YYZ depart at 1200 and YYC land at 1800', () => {
-    expect(calculateAirTime(1200, -5, 1800, -7)).toEqual(400);
+    const actual = calculateAirTime(1200, -5, 1800, -7);
+    const expected = 400;
+    expect(actual).toEqual(expected);
 });
 
 test('air time between YYC depart at 1500 and YVR land at 2200', () => {
-    expect(calculateAirTime(1500, -7, 2200, -8)).toEqual(600);
+    const actual = calculateAirTime(1500, -7, 2200, -8);
+    const expected = 600;
+    expect(actual).toEqual(expected);
 });
