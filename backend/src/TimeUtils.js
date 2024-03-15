@@ -15,36 +15,64 @@ const calculateAirTime = (time1, timezoneoffset1, time2, timezoneoffset2) => {
 }
 
 /**
- * Change time format from 24 hour to 12 hour or vice versa
+ * Change time mode from 24 hour to 12 hour or vice versa
  * @param {*} time example: 1200
  * @param {*} mode example: '12' or '24'
  * @returns example: 1400 -> 200
  */
-const changeTimeFormat = (time, mode) => {
 
+function changeTimeFormat(time, mode) {
+
+    if (!time || typeof time !== 'string' || !time.match(/^\d{2}:\d{2}$/)) {
+        return ('Invalid input. Please provide a valid time in the format "HH:MM".');
+    }
+
+    // Validate mode argument
     if (mode !== '12' && mode !== '24') {
-        return 'Invalid mode. Please provide either "12" or "24".';
+        return ('Invalid input. Mode must be "12" or "24".');
     }
 
-    const timeParts = time.split(':');
-    const hours = parseInt(timeParts[0], 10);
-    const minutes = parseInt(timeParts[1], 10);
+    // Split the time into hours and minutes
+    const parts = time.split(':');
+    const hours = parseInt(parts[0]);
+    const minutes = parts[1];
 
-    if (isNaN(hours) || isNaN(minutes)) {
-        return 'Invalid input. Please provide a valid time in the format "HH:MM".';
+
+    // Check the mode we're converting to
+    if (mode === '24') {
+        // Convert from 12-hour to 24-hour
+        if (hours === 12 && parts[1].includes('am')) {
+            return `00:${minutes}`;
+        } else { // Handle 12:00 am edge case explicitly
+            if (hours === 0) {
+                return `12:00 am`;
+            } else if (hours === 12) {
+                return `12:00 pm`;
+            }
+
+            if (hours === 12 && parts[1].includes('pm')) {
+                return `12:${minutes}`;
+            } else if (hours > 12) {
+                return `${hours - 12}:${minutes}`;
+            } else {
+                // Add leading zero for single-digit hours
+                return hours.toString().padStart(2, '0') + `:${minutes}`;
+            }
+        }
+    } else if (mode === '12') {
+        // Convert from 24-hour to 12-hour
+        if (hours === 0) {
+            return `12:00 am`;
+        } else if (hours === 12) {
+            return `12:00 pm`;
+        } else if (hours > 12) {
+            const newHours = hours % 12;
+            return `${newHours}:00 pm`;
+        } else {
+            const amPm = hours < 12 ? 'am' : 'pm';
+            return `${hours}:00 ${amPm}`;
+        }
     }
-
-    let formattedTime;
-    if (mode === '12') {
-        const suffix = hours >= 12 ? 'pm' : 'am';
-        const twelveHour = hours % 12 || 12; // Handle midnight (0:00) as 12:00 am
-        formattedTime = `${twelveHour}:${minutes.toString().padStart(2, '0')} ${suffix}`;
-    } else {
-        const twentyFourHour = hours === 12 ? 0 : hours % 12; // Handle 12:00 pm as 0:00
-        formattedTime = `${twentyFourHour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    }
-
-    return formattedTime;
 }
 
 /**
@@ -63,8 +91,8 @@ const getOffset = (id) => {
 
 /**
  * returns true if date1 is before date2
- * @param {*} date1 string in the format of 'YYYY-MM-DD'
- * @param {*} date2 string in the format of 'YYYY-MM-DD'
+ * @param {*} date1 string in the mode of 'YYYY-MM-DD'
+ * @param {*} date2 string in the mode of 'YYYY-MM-DD'
  */
 const isDateInOrder = (date1, date2) => {
     return date1 <= date2;

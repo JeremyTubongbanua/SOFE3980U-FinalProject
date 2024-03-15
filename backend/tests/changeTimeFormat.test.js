@@ -53,6 +53,6 @@ describe('changeTimeFormat', () => {
         expect(changeTimeFormat(123, "12")).toBe('Invalid input. Please provide a valid time in the format "HH:MM".');
 
         //Invalid Mode - not 12 or 24
-        expect(changeTimeFormat('00:00', "123")).toBe('Invalid input. Please provide a valid time in the format "HH:MM".');
+        expect(changeTimeFormat('00:00', "123")).toBe('Invalid input. Mode must be "12" or "24".');
     });
 });
