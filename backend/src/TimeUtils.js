@@ -24,12 +24,12 @@ const calculateAirTime = (time1, timezoneoffset1, time2, timezoneoffset2) => {
 function changeTimeFormat(time, mode) {
 
     if (!time || typeof time !== 'string' || !time.match(/^\d{2}:\d{2}$/)) {
-        return ('Invalid input. Please provide a valid time in the format "HH:MM".');
+        return 'Invalid input. Please provide a valid time in the format "HH:MM".';
     }
 
     // Validate mode argument
     if (mode !== '12' && mode !== '24') {
-        return ('Invalid input. Mode must be "12" or "24".');
+        return 'Invalid input. Mode must be "12" or "24".';
     }
 
     // Split the time into hours and minutes
@@ -37,34 +37,23 @@ function changeTimeFormat(time, mode) {
     const hours = parseInt(parts[0]);
     const minutes = parts[1];
 
-
-    // Check the mode we're converting to
     if (mode === '24') {
         // Convert from 12-hour to 24-hour
         if (hours === 12 && parts[1].includes('am')) {
-            return `00:${minutes}`;
-        } else { // Handle 12:00 am edge case explicitly
-            if (hours === 0) {
-                return `12:00 am`;
-            } else if (hours === 12) {
-                return `12:00 pm`;
-            }
-
-            if (hours === 12 && parts[1].includes('pm')) {
-                return `12:${minutes}`;
-            } else if (hours > 12) {
-                return `${hours - 12}:${minutes}`;
-            } else {
-                // Add leading zero for single-digit hours
-                return hours.toString().padStart(2, '0') + `:${minutes}`;
-            }
+            return '00:' + minutes;
+        } else if (hours === 12 && parts[1].includes('pm')) {
+            return '12:' + minutes;
+        } else {
+            const adjustedHours = hours % 12;
+            const formattedHours = adjustedHours.toString().padStart(2, '0');
+            return `${formattedHours}:${minutes}`;
         }
     } else if (mode === '12') {
         // Convert from 24-hour to 12-hour
         if (hours === 0) {
-            return `12:00 am`;
+            return '12:00 am';
         } else if (hours === 12) {
-            return `12:00 pm`;
+            return '12:00 pm';
         } else if (hours > 12) {
             const newHours = hours % 12;
             return `${newHours}:00 pm`;
