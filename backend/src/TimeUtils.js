@@ -27,8 +27,15 @@ const changeTimeFormat = (time, mode) => {
     }
 
 
-    const hours = parseInt(time.substring(0, 2), 10);
-    const minutes = parseInt(time.substring(3), 10);
+    const timeParts = time.toString().split(':');
+    const hours = parseInt(timeParts[0], 10);
+    const minutes = parseInt(timeParts[1], 10);
+
+    if (isNaN(hours) || isNaN(minutes)) {
+        return 'Invalid Input';
+    }
+
+
 
 
     let formattedTime;
