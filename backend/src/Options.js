@@ -1,4 +1,14 @@
+const { IncorrectArgumentsError } = require("./IncorrectArgumentsError");
+const { isDateInOrder } = require("./TimeUtils");
+
 const getPaths = (flights, sourceid, destinationid, numberofstops, departdate, arrivedate) => {
+    if(numberofstops < 0) throw new IncorrectArgumentsError('number of stops is less than 0');
+    // check if departdate=='2020-03-15' and arrivedate=='2020-03-15' and numberofstops==0
+    // if true, return new IncorrectArgumentsError()
+    // if false, continue
+    if(!isDateInOrder(departdate, arrivedate)) throw new IncorrectArgumentsError('date is not in order');
+    if(sourceid === destinationid) throw new IncorrectArgumentsError('sourceid is equal to destinationid');
+
     const paths = [];
     const visited = new Set();
     // breadth first search on flights

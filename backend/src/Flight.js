@@ -28,7 +28,12 @@ flights = [
     newFlight(11, "United Airlines 189", "2020-01-01", 1215, "2020-01-01", 1415, "YYZ", "YYC"),
 ];
 
+const getFlight = (flightid) => {
+    return flights.find(flight => flight.flightid === flightid);
+}
+
 module.exports = {
     newFlight,
-    flights
+    flights,
+    getFlight
 }

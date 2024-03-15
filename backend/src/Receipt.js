@@ -15,7 +15,20 @@ const generateReceipt = (name, email, departureflightids, returnflightids) => {
         }
     });
 
-    return { name, email, totaldepartflighttime, departureflightids, returnflightids, totalreturnflighttime, transactionid };
+    const departureflights = [];
+    const returnflights = [];
+
+    departureflightids.forEach(id => {
+        const flight = flights.find(flight => flight.flightid === id);
+        departureflights.push(flight);
+    });
+
+    returnflightids.forEach(id => {
+        const flight = flights.find(flight => flight.flightid === id);
+        returnflights.push(flight);
+    });
+
+    return { name, email, totaldepartflighttime, departureflights, returnflights, totalreturnflighttime, transactionid };
 
 }
 

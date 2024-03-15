@@ -51,4 +51,13 @@ const getOffset = (id) => {
     return null;
 }
 
-module.exports = { calculateAirTime, changeTimeFormat, getOffset }
+/**
+ * returns true if date1 is before date2
+ * @param {*} date1 string in the format of 'YYYY-MM-DD'
+ * @param {*} date2 string in the format of 'YYYY-MM-DD'
+ */
+const isDateInOrder = (date1, date2) => {
+    return date1 <= date2;
+}
+
+module.exports = { calculateAirTime, changeTimeFormat, getOffset, isDateInOrder }
