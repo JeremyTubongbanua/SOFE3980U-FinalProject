@@ -1,3 +1,4 @@
+const {airports} = require('./Airport');
 
 /**
  * Caclulate the air time between two timezones where time1 is departure time in timezoneoffset 1 and time2 is arrival time in timezoneoffset 2
@@ -36,4 +37,18 @@ const changeTimeFormat = (time, mode) => {
     return time;
 }
 
-module.exports = { calculateAirTime, changeTimeFormat }
+/**
+ * Get the timezone offset of the city of the airport
+ * @param {*} id id of the airport (e.g. YYZ)
+ * @returns the timezone offset of the airport (e.g. -5)
+ */
+const getOffset = (id) => {
+    for(let i = 0; i < airports.length; i++) {
+        if(airports[i].id === id) {
+            return airports[i].timezoneoffset;
+        }
+    }
+    return null;
+}
+
+module.exports = { calculateAirTime, changeTimeFormat, getOffset }
