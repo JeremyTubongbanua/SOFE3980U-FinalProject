@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node Api.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage --match='**/*.test.js'"
   },
   "dependencies": {
     "cors": "^2.8.5",
