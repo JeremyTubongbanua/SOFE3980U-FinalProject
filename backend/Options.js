@@ -1,4 +1,3 @@
-const { flights } = require('./Flight');
 
 const getPaths = (flights, sourceid, destinationid, numberofstops) => {
     const paths = [];
@@ -11,7 +10,6 @@ const getPaths = (flights, sourceid, destinationid, numberofstops) => {
             }
         }
     } else if (numberofstops > 0) {
-        let x = 0;
         for (let i = 0; i < flights.length; i++) {
             if (flights[i].sourceid === sourceid) {
                 visited.add(flights[i].flightid);
@@ -35,9 +33,4 @@ const getPaths = (flights, sourceid, destinationid, numberofstops) => {
     return paths;
 };
 
-
-const newOptions = (sourceid, destinationid, numberofstops, isroundtrip, departdate, departtime, returndate, returntime) => {
-    // Your code for newOptions goes here
-};
-
-module.exports = { getPaths, newOptions };;
+module.exports = { getPaths };;
