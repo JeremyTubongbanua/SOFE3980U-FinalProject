@@ -1,4 +1,4 @@
-const { calculateAirTime } = require('../TimeUtils');
+const { calculateAirTime } = require('../src/TimeUtils');
 
 test ('zero case', () => {
     const actual = calculateAirTime(0, 0, 0, 0);
