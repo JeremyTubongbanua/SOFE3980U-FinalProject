@@ -1,4 +1,4 @@
-const {getOffset} = require('../src/Airport');
+const {getOffset} = require('../src/TimeUtils');
 
 test('getOffset - YYZ', () => {
     expect(getOffset('YYZ')).toBe(-5);
@@ -10,6 +10,10 @@ test('getOffset - YYC', () => {
 
 test('getOffset - YVR', () => {
     expect(getOffset('YVR')).toBe(-8);
+});
+
+test('getOffset - YOO', () => {
+    expect(getOffset('YOO')).toBe(-5);
 });
 
 test('getOffset - XXX', () => {

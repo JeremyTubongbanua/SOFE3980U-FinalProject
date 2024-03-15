@@ -1,6 +1,16 @@
 const { getPaths } = require('../src/Options');
 const { flights } = require('../src/Flight');
 
+test('no direct flight from YYZ to YOO', () => {
+    const sourceid = "YYZ";
+    const destinationid = "YOO";
+    const departdate = '2020-01-01';
+    const arrivedate = '2020-01-01';
+    const numberofstops = 0;
+    const paths = getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate);
+    expect(paths.length).toBe(0);
+});
+
 test('direct flight from YYZ to YYC', () => {
     /**
      * [
@@ -34,8 +44,10 @@ test('direct flight from YYZ to YYC', () => {
      */
     const sourceid = "YYZ";
     const destinationid = "YYC";
+    const departdate = '2020-01-01';
+    const arrivedate = '2020-01-01';
     const numberofstops = 0;
-    const paths = getPaths(flights, sourceid, destinationid, numberofstops);
+    const paths = getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate);
     expect(paths.length).toBe(2);
     expect(paths[0].length).toBe(1);
     expect(paths[0][0].flightid).toBe(1);
@@ -77,8 +89,10 @@ test('one stop flight from YYZ to YVR', () => {
      */
     const sourceid = "YYZ";
     const destinationid = "YVR";
+    const departdate = '2020-01-01';
+    const arrivedate = '2020-01-01';
     const numberofstops = 1;
-    const paths = getPaths(flights, sourceid, destinationid, numberofstops);
+    const paths = getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate);
     expect(paths.length).toBe(1);
     expect(paths[0].length).toBe(2);
     expect(paths[0][0].flightid).toBe(1);
@@ -89,10 +103,12 @@ test('one stop flight from YYZ to YVR', () => {
     expect(paths[0][1].destinationid).toBe('YVR');
 });
 
-test('no direct flight from YYZ to YOO', () => {
+test('no flights within date range', () => {
     const sourceid = "YYZ";
-    const destinationid = "YOO";
+    const destinationid = "YVR";
+    const departdate = '2020-03-15';
+    const arrivedate = '2020-03-15';
     const numberofstops = 0;
-    const paths = getPaths(flights, sourceid, destinationid, numberofstops);
+    const paths = getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate);
     expect(paths.length).toBe(0);
 });
