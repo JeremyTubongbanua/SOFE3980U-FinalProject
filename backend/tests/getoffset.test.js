@@ -1,4 +1,4 @@
-const {getOffset} = require('../src/TimeUtils');
+const { getOffset } = require('../src/TimeUtils');
 
 test('getOffset - YYZ', () => {
     expect(getOffset('YYZ')).toBe(-5);

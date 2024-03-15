@@ -23,20 +23,16 @@ const calculateAirTime = (time1, timezoneoffset1, time2, timezoneoffset2) => {
 const changeTimeFormat = (time, mode) => {
 
     if (mode !== '12' && mode !== '24') {
-        return 'Invalid Input';
+        return 'Invalid mode. Please provide either "12" or "24".';
     }
 
-
-    const timeParts = time.toString().split(':');
+    const timeParts = time.split(':');
     const hours = parseInt(timeParts[0], 10);
     const minutes = parseInt(timeParts[1], 10);
 
     if (isNaN(hours) || isNaN(minutes)) {
-        return 'Invalid Input';
+        return 'Invalid input. Please provide a valid time in the format "HH:MM".';
     }
-
-
-
 
     let formattedTime;
     if (mode === '12') {
@@ -44,7 +40,6 @@ const changeTimeFormat = (time, mode) => {
         const twelveHour = hours % 12 || 12; // Handle midnight (0:00) as 12:00 am
         formattedTime = `${twelveHour}:${minutes.toString().padStart(2, '0')} ${suffix}`;
     } else {
-
         const twentyFourHour = hours === 12 ? 0 : hours % 12; // Handle 12:00 pm as 0:00
         formattedTime = `${twentyFourHour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
     }
