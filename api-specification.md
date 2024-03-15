@@ -8,8 +8,8 @@ Parameters
 
 | Name            | Description                            | Available Values                                                                                          |
 | --------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Where From?     | The city where the flight is from      | Toronto, Calgary, Vancouver, Ottawa                                                                       |
-| Where To?       | The city where the flight is to        | Toronto, Calgary, Vancouver, Ottawa                                                                       |
+| Source     | The city where the flight is from      | YYZ, YYC, YYV, YBC                                                                       |
+| Destination       | The city where the flight is to        | YYZ, YYC, YYV, YBC                                                                       |
 | Number of Stops | The number of stops the total trip has | 0, 1, 2                                                                                                   |
 | Departure Date  | The date of the flight                 | month/days/yyyy (e.g. 12/25/2020 = december 25, 2020)                                                     |
 | Return Date     | The date of the return flight          | month/days/yyyy (e.g. 12/25/2020 = december 25, 2020) OR "null", (null would imply the flight is one-way) |
@@ -18,10 +18,10 @@ Example
 
 ```json
 {
-  "wherefrom": "Toronto",
-  "whereto": "Calgary",
+  "source": "YYZ",
+  "destination": "YYC",
   "numberofstops": 0,
-  "departuredate": "12/25/2020",
+  "departuredate": "12-25-2020",
   "returndate": "null"
 }
 ```
@@ -34,25 +34,25 @@ Example
 		// A -> B
     {
       "order": 1,
-      "from": "Toronto",
-      "to": "Calgary",
+      "source": "Toronto",
+      "destination": "Calgary",
       "flights": [
         {
           "flightid": 1234,
           "planename": "Boeing 737",
           "departuredate": "12/25/2020",
-          "departuretime": "12:00 PM",
+          "departuretime": "1200",
           "arrivaldate": "12/25/2020",
-          "arrivaltime": "2:00 PM",
+          "arrivaltime": "1400",
           "totaltime": "2h"
         },
 				{
           "flightid": 1234,
           "planename": "Boeing 737",
           "departuredate": "12/25/2020",
-          "departuretime": "1:00 PM",
+          "departuretime": "1300",
           "arrivaldate": "12/25/2020",
-          "arrivaltime": "3:00 PM",
+          "arrivaltime": "1500",
           "totaltime": "2h"
         },
       ]
@@ -60,8 +60,8 @@ Example
 		// B -> C
     {
       "order": 2,
-      "from": "Calgary",
-      "to": "Vancouver",
+      "source": "Calgary",
+      "destination": "Vancouver",
       "flights": [
         // ...
       ]
@@ -110,9 +110,9 @@ Example
         "flightid": 1234,
         "planename": "Boeing 737",
         "departuredate": "12/25/2020",
-        "departuretime": "12:00 PM",
+        "departuretime": "1200",
         "arrivaldate": "12/25/2020",
-        "arrivaltime": "2:00 PM",
+        "arrivaltime": "1400",
         "totaltime": "1h 43m"
       },
       {
@@ -120,9 +120,9 @@ Example
         "flightid": 5678,
         "planename": "Boeing 737",
         "departuredate": "12/25/2020",
-        "departuretime": "12:00 PM",
+        "departuretime": "1200",
         "arrivaldate": "12/25/2020",
-        "arrivaltime": "2:00 PM",
+        "arrivaltime": "1400",
         "totaltime": "1h 43m"
       },
       {
@@ -130,10 +130,10 @@ Example
         "flightid": 91011,
         "planename": "Boeing 737",
         "departuredate": "12/25/2020",
-        "departuretime": "12:00 PM",
+        "departuretime": "1200",
         "arrivaldate": "12/25/2020",
-        "arrivaltime": "2:00 PM",
-        "totaltime": "1h 43m"
+        "arrivaltime": "1400",
+        "totaltime": "2h"
       }
     ]
     "totaltime": "5h 19m"
@@ -145,9 +145,9 @@ Example
 				"flightid": 12345,
 				"planename": "Boeing 737",
 				"departuredate": "12/25/2020",
-				"departuretime": "12:00 PM",
+				"departuretime": "1200",
 				"arrivaldate": "12/25/2020",
-				"arrivaltime": "2:00 PM",
+				"arrivaltime": "1400",
 				"totaltime": "1h 43m"
 			}
 		]
