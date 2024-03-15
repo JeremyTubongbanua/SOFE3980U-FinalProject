@@ -1,5 +1,24 @@
 const { getPaths } = require('../src/Options');
 const { flights } = require('../src/Flight');
+const { IncorrectArgumentsError } = require('../src/IncorrectArgumentsError');
+
+test('arrive date is before depart date', () => {
+    const sourceid = "YYZ";
+    const destinationid = "YVR";
+    const departdate = '2020-01-02';
+    const arrivedate = '2020-01-01';
+    const numberofstops = 0;
+    expect(() => getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate)).toThrow(IncorrectArgumentsError);
+});
+
+test('same destniation as source', () => {
+    const sourceid = "YYZ";
+    const destinationid = "YYZ";
+    const departdate = '2020-01-01';
+    const arrivedate = '2020-01-01';
+    const numberofstops = 0;
+    expect(() => getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate)).toThrow(IncorrectArgumentsError);
+});
 
 test('no direct flight from YYZ to YOO', () => {
     const sourceid = "YYZ";
