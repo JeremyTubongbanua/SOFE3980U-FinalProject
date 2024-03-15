@@ -1,5 +1,17 @@
 const { calculateAirTime } = require('../TimeUtils');
 
+test ('zero case', () => {
+    const actual = calculateAirTime(0, 0, 0, 0);
+    const expected = 0;
+    expect(actual).toEqual(expected);
+});
+
+test ('potential negative case', () => {
+    const actual = calculateAirTime(0, -2, 0, 0);
+    const expected = 200;
+    expect(actual).toEqual(expected);
+})
+
 test('air time between YYZ depart at 1200 and YYC land at 1800', () => {
     expect(calculateAirTime(1200, -5, 1800, -7)).toEqual(400);
 });
