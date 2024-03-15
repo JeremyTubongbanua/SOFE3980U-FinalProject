@@ -1,4 +1,4 @@
-const {getOffset} = require('../Airport');
+const {getOffset} = require('../src/Airport');
 
 test('getOffset - YYZ', () => {
     expect(getOffset('YYZ')).toBe(-5);

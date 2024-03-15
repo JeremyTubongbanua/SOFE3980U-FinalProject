@@ -1,5 +1,5 @@
-const { getPaths } = require('../Options');
-const { flights } = require('../Flight');
+const { getPaths } = require('../src/Options');
+const { flights } = require('../src/Flight');
 
 test('direct flight from YYZ to YYC', () => {
     /**
