@@ -98,8 +98,8 @@ Parameters
 | ------------------ | -------------------------------------------------- | ------------------------------ |
 | departureflightids | flight ids of departure flight path, order matters | "[1234, 5678, 91011]"          |
 | returnflightids    | flight ids of return flight path, order matters    | "[121314, 151617, 181920]"     |
-| name               | name of the passenger                              | "John Doe"                     |
-| email              | email of the passenger                             | "jeremy.tubongbanua@gmail.com" |
+| name               | passenger name	                                  | "John Doe"                     |
+| email              | passenger email                                    | "jeremy.tubongbanua@gmail.com" |
 
 Example
 
