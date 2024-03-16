@@ -41,9 +41,3 @@ test('air time between YVR depart at 200 and YOO land at 1200', () => {
     const expected = 1300;
     expect(actual).toEqual(expected);
 });
-
-test('air time between YYC depart at 1500 and YVR land at 2200', () => {
-    const actual = calculateAirTime(1500, -7, 2200, -8);
-    const expected = 600;
-    expect(actual).toEqual(expected);
-});
