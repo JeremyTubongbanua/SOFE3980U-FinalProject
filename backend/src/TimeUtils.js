@@ -1,4 +1,5 @@
 const { airports } = require('./Airport');
+const { IncorrectArgumentsError } = require('./IncorrectArgumentsError');
 
 /**
  * Caclulate the air time between two timezones where time1 is departure time in timezoneoffset 1 and time2 is arrival time in timezoneoffset 2
@@ -16,51 +17,80 @@ const calculateAirTime = (time1, timezoneoffset1, time2, timezoneoffset2) => {
 
 /**
  * Change time mode from 24 hour to 12 hour or vice versa
- * @param {*} time example: 1200
+ * @param {*} time example: '1200' or '12:00 pm'
  * @param {*} mode example: '12' or '24'
- * @returns example: 1400 -> 200
+ * @returns example: changeTimeFormat('1200', '12') returns '12:00 pm' and changeTimeFormat('12:00 pm', '24') returns '1200'
  */
 
-function changeTimeFormat(time, mode) {
-
-    if (!time || typeof time !== 'string' || !time.match(/^\d{2}:\d{2}$/)) {
-        return 'Invalid input. Please provide a valid time in the format "HH:MM".';
+const changeTimeFormat = (time, mode) => {
+    if (typeof time !== 'string' || typeof mode !== 'string') {
+        throw new IncorrectArgumentsError('Invalid input. Please provide a valid time in the format "HH:MM".');
     }
 
-    // Validate mode argument
+    if(time === '' || mode === '') {
+        throw new IncorrectArgumentsError('Invalid input. Please provide a valid time in the format "HH:MM".');
+    }
+
     if (mode !== '12' && mode !== '24') {
-        return 'Invalid input. Mode must be "12" or "24".';
+        throw new IncorrectArgumentsError('Invalid input. Mode must be "12" or "24".');
     }
 
-    // Split the time into hours and minutes
-    const parts = time.split(':');
-    const hours = parseInt(parts[0]);
-    const minutes = parts[1];
+    if(mode === '12' && (time.includes('am') || time.includes('pm'))) {
+        throw new IncorrectArgumentsError('Invalid input. Please provide a valid time in the format "HH:MM am/pm".');
+    }
 
-    if (mode === '24') {
-        // Convert from 12-hour to 24-hour
-        if (hours === 12 && parts[1].includes('am')) {
-            return '00:' + minutes;
-        } else if (hours === 12 && parts[1].includes('pm')) {
-            return '12:' + minutes;
+    if(mode === '24' && !(time.includes('am') || time.includes('pm'))) {
+        throw new IncorrectArgumentsError('Invalid input. Please provide a valid time in the format "HH:MM".');
+    }
+
+    if(mode === '12') {
+        // 24hr -> 12hr
+        let split = time.split(':');
+        let hour = parseInt(split[0]);
+        let minute = split[1];
+        let val = parseInt(hour + minute);
+        let strtoreturn;
+        if(hour > 12) {
+            val -= 1200;
+        } else if(hour === 12) {
         } else {
-            const adjustedHours = hours % 12;
-            const formattedHours = adjustedHours.toString().padStart(2, '0');
-            return `${formattedHours}:${minutes}`;
         }
-    } else if (mode === '12') {
-        // Convert from 24-hour to 12-hour
-        if (hours === 0) {
-            return '12:00 am';
-        } else if (hours === 12) {
-            return '12:00 pm';
-        } else if (hours > 12) {
-            const newHours = hours % 12;
-            return `${newHours}:00 pm`;
+        if(hour > 12) {
+            strtoreturn = (hour - 12) + ':' + minute + ' pm';
+        } else if(hour === 12) {
+            strtoreturn = hour + ':' + minute + ' pm';
         } else {
-            const amPm = hours < 12 ? 'am' : 'pm';
-            return `${hours}:00 ${amPm}`;
+            strtoreturn = hour + ':' + minute + ' am';
         }
+        return strtoreturn;
+    } else {
+        // 12hr -> 24hr
+        let split = time.split(' ');
+        let ampm = split[1];
+        let hour = split[0].split(':')[0];
+        let minute = split[0].split(':')[1];
+        let val = parseInt(hour + minute);
+        let strtoreturn;
+        if(ampm === 'pm') {
+            if(hour !== '12') {
+                val += 1200;
+            }
+            strtoreturn = val.toString();
+        } else {
+            if(hour === '12') {
+                val -= 1200;
+            }
+            strtoreturn = val.toString();
+        }
+
+        // add trailing zeroes if necessary
+        if(strtoreturn.length != 4) {
+            while(strtoreturn.length < 4) {
+                strtoreturn = '0' + strtoreturn;
+            }
+        }
+
+        return strtoreturn;
     }
 }
 
