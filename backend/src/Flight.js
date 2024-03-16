@@ -26,6 +26,10 @@ flights = [
 
     newFlight(10, "United Airlines 132", "2020-01-01", 1300, "2020-01-01", 1900, "YYZ", "YVR"),
     newFlight(11, "United Airlines 189", "2020-01-01", 1215, "2020-01-01", 1415, "YYZ", "YYC"),
+
+    newFlight(12, "Boeing 132", "2020-05-28", 1200, "2020-05-29", 300, "YYZ", "YYC"),
+    newFlight(13, "Boeing 132", "2020-05-29", 1200, "2020-05-29", 2200, "YYC", "YVR"),
+    newFlight(14, "AC-130", "2020-05-30", 0, "2020-05-30", 1500, "YVR", "SFO"),
 ];
 
 const getFlight = (flightid) => {
