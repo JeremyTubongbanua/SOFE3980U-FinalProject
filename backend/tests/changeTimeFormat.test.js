@@ -1,3 +1,4 @@
+const { IncorrectArgumentsError } = require('../src/IncorrectArgumentsError');
 const { changeTimeFormat } = require('../src/TimeUtils');
 
 // Import the necessary modules
@@ -42,17 +43,17 @@ describe('changeTimeFormat', () => {
         expect(changeTimeFormat('06:10 am', '24')).toBe('06:10');
 
         // Test case: 12:30 am → 00:30
-        expect(changeTimeFormat('12:30 pm', '24')).toBe('00:30');
+        expect(changeTimeFormat('12:30 pm', '24')).toBe('12:30');
     });
 
     it('should handle invalid input', () => {
         //Invalid input - empty string
-        expect(changeTimeFormat('', "12")).toBe('Invalid input. Please provide a valid time in the format "HH:MM".');
+        expect(() =>changeTimeFormat('', "12")).toThrow(IncorrectArgumentsError);
 
         //Invalid input - non-string value
-        expect(changeTimeFormat(123, "12")).toBe('Invalid input. Please provide a valid time in the format "HH:MM".');
+        expect(() => changeTimeFormat(123, "12")).toThrow(IncorrectArgumentsError);
 
         //Invalid Mode - not 12 or 24
-        expect(changeTimeFormat('00:00', "123")).toBe('Invalid input. Mode must be "12" or "24".');
+        expect(() => changeTimeFormat('00:00', "123")).toThrow(IncorrectArgumentsError);
     });
 });

@@ -52,14 +52,15 @@ const changeTimeFormat = (time, mode) => {
         let strtoreturn;
         if(hour > 12) {
             val -= 1200;
-        } else if(hour === 12) {
-        } else {
-        }
-        if(hour > 12) {
             strtoreturn = (hour - 12) + ':' + minute + ' pm';
         } else if(hour === 12) {
+            val = 1200;
             strtoreturn = hour + ':' + minute + ' pm';
+        } else if(hour === 0) {
+            val = 1200;
+            strtoreturn = '12:' + minute + ' am';
         } else {
+            val = val;
             strtoreturn = hour + ':' + minute + ' am';
         }
         return strtoreturn;
@@ -73,12 +74,12 @@ const changeTimeFormat = (time, mode) => {
         let strtoreturn;
         if(ampm === 'pm') {
             if(hour !== '12') {
-                val += 1200;
+            val += 1200;
             }
             strtoreturn = val.toString();
         } else {
             if(hour === '12') {
-                val -= 1200;
+            val -= 1200;
             }
             strtoreturn = val.toString();
         }
@@ -86,9 +87,12 @@ const changeTimeFormat = (time, mode) => {
         // add trailing zeroes if necessary
         if(strtoreturn.length != 4) {
             while(strtoreturn.length < 4) {
-                strtoreturn = '0' + strtoreturn;
+            strtoreturn = '0' + strtoreturn;
             }
         }
+
+        // add colon
+        strtoreturn = strtoreturn.slice(0, 2) + ':' + strtoreturn.slice(2);
 
         return strtoreturn;
     }
