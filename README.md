@@ -9,8 +9,9 @@ Final Project for SOFE3980U - Software Quality
 | Jeremy Mark Tubongbanua | 100849092      |
 | Jerry Shum              | 100845217      |
 | Emily Lai               | 100825007      |
+| Alina Mathew		  | 100853412	   |
 | Natasha Naorem          | 100845321      |
-| Alina Mathew            | 100853412      |
+
 
 # API Specification
 
