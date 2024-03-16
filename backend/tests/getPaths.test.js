@@ -2,6 +2,15 @@ const { getPaths } = require('../src/Options');
 const { flights } = require('../src/Flight');
 const { IncorrectArgumentsError } = require('../src/IncorrectArgumentsError');
 
+test('invalid number of stops', () => {
+    const sourceid = "YYZ";
+    const destinationid = "YVR";
+    const departdate = '2020-01-01';
+    const arrivedate = '2020-01-01';
+    const numberofstops = -1;
+    expect(() => getPaths(flights, sourceid, destinationid, numberofstops, departdate, arrivedate)).toThrow(IncorrectArgumentsError);
+});
+
 test('arrive date is before depart date', () => {
     const sourceid = "YYZ";
     const destinationid = "YVR";
@@ -77,7 +86,7 @@ test('direct flight from YYZ to YYC', () => {
     expect(paths[1][0].destinationid).toBe('YYC');
 });
 
-test('one stop flight from YYZ to YVR', () => {
+test('one stop flight from YYZ to YVR, number of stops > 0', () => {
     /**
      * [
      *   [
