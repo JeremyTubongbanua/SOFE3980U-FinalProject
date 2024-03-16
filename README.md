@@ -2,7 +2,7 @@
 
 Final Project for SOFE3980U - Software Quality
 
-# Group
+# Group Members
 
 | Name                    | Student Number |
 | ----------------------- | -------------- |
