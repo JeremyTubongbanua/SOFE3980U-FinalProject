@@ -1,26 +1,6 @@
 const { IncorrectArgumentsError } = require('../src/IncorrectArgumentsError');
 const { changeTimeFormat } = require('../src/TimeUtils');
 
-// Import the necessary modules
-
-// const changeTimeFormat = (time, mode) => {
-//     if (mode === '12') {
-//         if (time < 1200) {
-//             return time + 1200;
-//         } else if (time >= 1300) {
-//             return time - 1200;
-//         }
-//     } else if (mode === '24') {
-//         if (time < 100) {
-//             return time + 1200;
-//         } else if (time >= 100 && time < 800) {
-//             return time + 2400;
-//         }
-//     }
-//     return time;
-// }
-
-// Test cases for the changeTimeFormat function
 describe('changeTimeFormat', () => {
     it('should convert 24-hour time to 12-hour time and vice versa', () => {
         // Test case: Zero case (00:00 → 12:00 am)
