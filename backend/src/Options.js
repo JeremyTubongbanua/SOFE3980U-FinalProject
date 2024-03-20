@@ -38,7 +38,7 @@ const getPaths = (flights, sourceid, destinationid, numberofstops, departdate, a
                         paths.push(path.map((flight, index) => ({ order: index + 1, ...flight })));
                     }
                     for (let j = 0; j < flights.length; j++) {
-                        if (flights[j].sourceid === lastFlight.destinationid && !visited.has(flights[j].flightid)) {
+                        if (flights[j].sourceid === lastFlight.destinationid && !visited.has(flights[j].flightid) && !path.includes(flights[j]) && flights[j].destinationid !== sourceid && flights[j].sourceid !== destinationid) { // Check if the flight is not already in the current path and the source id is not the destination id and vice versa
                             visited.add(flights[j].flightid);
                             queue.push([...path, flights[j]]);
                         }
