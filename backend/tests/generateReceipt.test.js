@@ -24,9 +24,9 @@ test('One stop flight from YYZ to YVR', () => {
     const receipt = generateReceipt(name, email, departFlightIds, returnFlightIds);
     expect(receipt.name).toBe(name);
     expect(receipt.email).toBe(email);
-    expect(receipt.totaldepartflighttime).toBe(700);
+    expect(receipt.totaldepartflighttime).toBe(1400);
     expect(receipt.departureflights.length).toBe(departFlightIds.length);
-    expect(receipt.totalreturnflighttime).toBe(400);
+    expect(receipt.totalreturnflighttime).toBe(900);
     expect(receipt.returnflights.length).toBe(returnFlightIds.length);
     for(let i = 0; i < departFlightIds.length; i++) {
         const flight = getFlight(departFlightIds[i]);
