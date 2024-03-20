@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "node Api.js",
+    "start": "node src/Api.js",
     "test": "jest --coverage --match='**/*.test.js'"
   },
   "dependencies": {
