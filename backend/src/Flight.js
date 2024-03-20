@@ -1,3 +1,4 @@
+const { calculateAirTime, getOffset } = require('./TimeUtils');
 
 const newFlight = (flightid, planename, departdate, departtime, arrivedate, arrivetime, sourceid, destinationid) => {
     return {
@@ -12,7 +13,7 @@ const newFlight = (flightid, planename, departdate, departtime, arrivedate, arri
     };
 }
 
-let i = 0;
+let i = 15;
 
 flights = [
     newFlight(1, "Boeing 747", "2020-01-01", 500, "2020-01-01", 1400, "YYZ", "YYC"),
@@ -145,8 +146,22 @@ const getFlight = (flightid) => {
     return flights.find(flight => flight.flightid === flightid);
 }
 
+const calculateAirTimeFlights = (flights) => {
+    let airtime = 0;
+    for (let i = 0; i < flights.length; i++) {
+        let flight = flights[i];
+        let departtime = flight.departtime;
+        let timezoneoffset1 = getOffset(flight.sourceid);
+        let arrivetime = flight.arrivetime;
+        let timezoneoffset2 = getOffset(flight.destinationid);
+        airtime += calculateAirTime(departtime, timezoneoffset1, arrivetime, timezoneoffset2);
+    }
+    return airtime;
+}
+
 module.exports = {
     newFlight,
     flights,
-    getFlight
+    getFlight,
+    calculateAirTimeFlights
 }

@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const mysql = require('mysql2');
 const cors = require('cors');
 const { getPaths } = require('./Options');
-const { flights } = require('./Flight');
+const { flights, getFlight, calculateAirTimeFlights } = require('./Flight');
 
 const app = express();
 app.use(cors());
@@ -45,6 +45,61 @@ app.get('/generateoptions', (req, res) => {
     console.log('Departure paths: ' + departPaths.length);
     console.log('Return paths: ' + returnPaths.length);
     res.status(200).send({ status: 'success', data: {departPaths, returnPaths} });
+});
+
+app.get('/generatereceipt', (req, res) => {
+    const query = req.query;
+    let departureflightids = query.departureflightids;
+    let returnflightids = query.returnflightids;
+    const name = query.name;
+    const email = query.email;
+    // check if all parameters are present
+    if(!departureflightids || !returnflightids || !name || !email) {
+        res.status(400).send('Missing parameters: departureflightids: ' + departureflightids + ', returnflightids: ' + returnflightids + ', name: ' + name + ', email: ' + email);
+        return;
+    }
+
+    departureflightids = JSON.parse(departureflightids);
+    if(returnflightids != 'null') {
+        returnflightids = JSON.parse(returnflightids);
+    }
+
+    console.log('Departure flight ids: ' + departureflightids);
+    console.log('Return flight ids: ' + returnflightids);
+
+    deptflights = [];
+    for (let i = 0; i < departureflightids.length; i++) {
+        deptflights.push(getFlight(departureflightids[i]));
+    }
+
+    returnflights = [];
+    if(returnflightids != 'null') {
+        for (let i = 0; i < returnflightids.length; i++) {
+            returnflights.push(getFlight(returnflightids[i]));
+        }
+    }
+
+
+
+    let obj = {
+        status: 'success',
+        data: {
+            name,
+            email,
+            departureflights: {
+                flights: deptflights,
+                totalairtime: calculateAirTimeFlights(deptflights),
+            },
+            returnflights: returnflightids != null ? {
+                flights: returnflights,
+                totalairtime: calculateAirTimeFlights(returnflights),
+            } : null,
+            totalairtime: calculateAirTimeFlights(deptflights) + (returnflightids != null ? calculateAirTimeFlights(returnflights) : 0),
+        }
+    }
+
+    res.status(200).send(obj);  
+
 });
 
 const server = app.listen(3001, '127.0.0.1', () => {
