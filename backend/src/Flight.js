@@ -38,8 +38,14 @@ flights = [
     newFlight(i++, "Boeing 747", "2020-03-01", 1100, "2020-03-01", 1800, "YYC", "YVR"),
     newFlight(i++, "Boeing 747", "2020-03-01", 100, "2020-03-01", 1300, "YYZ", "YVR"),
     newFlight(i++, "Boeing 747", "2020-03-01", 1200, "2020-03-01", 1400, "YYZ", "YVR"),
-    newFlight(i++, "Boeing 747", "2020-03-01", 1500, "2020-03-01", 1600, "YYC", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-01", 1500, "2020-03-01", 1600, "YYC", "YYZ"),
     newFlight(i++, "AC-130", "2020-03-01", 0, "2020-03-01", 1500, "YYC", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-01", 0, "2020-03-01", 1000, "YVR", "YYZ"),
+    newFlight(i++, "Boeing 747", "2020-03-01", 0, "2020-03-01", 530, "YVR", "YYC"),
+
+    newFlight(i++, "AC-130", "2020-03-01", 445, "2020-03-01", 930, 'YYZ', 'YYC'),
+    newFlight(i++, "AC-130", "2020-03-01", 1100, "2020-03-01", 1530, 'YYC', 'YVR'),
+
 
     // depart Mar 2, arrive Mar 2
     newFlight(i++, "Boeing 747", "2020-03-02", 0, "2020-03-02", 1000, "YYZ", "YYC"),
@@ -78,11 +84,19 @@ flights = [
     newFlight(i++, "Boeing 747", "2020-03-06", 1500, "2020-03-06", 1600, "YYC", "YVR"),
 
     // depart Mar 7, arrive Mar 7
-    newFlight(i++, "Boeing 747", "2020-03-07", 0, "2020-03-07", 1000, "YYZ", "YYC"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 0, "2020-03-07", 1000, "YVR", "YYZ"),
     newFlight(i++, "Boeing 747", "2020-03-07", 1100, "2020-03-07", 1800, "YYC", "YVR"),
     newFlight(i++, "Boeing 747", "2020-03-07", 100, "2020-03-07", 1300, "YYZ", "YVR"),
     newFlight(i++, "Boeing 747", "2020-03-07", 1200, "2020-03-07", 1400, "YYZ", "YVR"),
     newFlight(i++, "Boeing 747", "2020-03-07", 1500, "2020-03-07", 1600, "YYC", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 0, "2020-03-07", 1000, "YYZ", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 1100, "2020-03-07", 1800, "YYC", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 100, "2020-03-07", 1300, "YYZ", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 1200, "2020-03-07", 1400, "YYZ", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 1500, "2020-03-07", 1600, "YYC", "YVR"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 1100, "2020-03-07", 1800, "YYC", "YYZ"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 0, "2020-03-07", 830, "YVR", "YYC"),
+    newFlight(i++, "Boeing 747", "2020-03-07", 930, "2020-03-07", 1800, "YYC", "YYZ"),
 
     // depart Mar 8, arrive Mar 8
     newFlight(i++, "Boeing 747", "2020-03-08", 0, "2020-03-08", 1000, "YYZ", "YYC"),

@@ -22,7 +22,13 @@ const getPaths = (flights, sourceid, destinationid, numberofstops, departdate, a
         }
     } else if (numberofstops > 0) {
         for (let i = 0; i < flights.length; i++) {
+            if (!isDateInOrder(flights[i].departdate, departdate) || !isDateInOrder(arrivedate, flights[i].arrivedate)) {
+                continue;
+            }
             if (flights[i].sourceid === sourceid) {
+                if(flights[i].destinationid === destinationid) {
+                    continue;
+                }
                 visited.add(flights[i].flightid);
                 const queue = [[flights[i]]];
                 while (queue.length > 0) {

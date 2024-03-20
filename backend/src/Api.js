@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mysql = require('mysql2');
 const cors = require('cors');
+const { getPaths } = require('./Options');
+const { flights } = require('./Flight');
 
 const app = express();
 app.use(cors());
@@ -24,8 +26,25 @@ db.connect((err) => {
     }
 });
 
-app.get('/generateflights', (req, res) => {
-    // TODO
+app.get('/generateoptions', (req, res) => {
+    const query = req.query;
+    const source = query.source; // e.g YYZ
+    const destination = query.destination; // e.g. YYC
+    const numberofstops = query.numberofstops; // e.g. 1
+    const departuredate = query.departuredate; // e.g. 2021-05-01
+    const returndate = query.returndate; // e.g. 2021-05-01
+    // check if all parameters are present
+    if (!source || !destination || !numberofstops || !departuredate || !returndate) {
+        res.status(400).send('Missing parameters: source: ' + source + ', destination: ' + destination + ', numberofstops: ' + numberofstops + ', departuredate: ' + departuredate + ', returndate: ' + returndate);
+        return;
+    }
+    console.log('Source: ' + source + ', Destination: ' + destination + ', Number of stops: ' + numberofstops + ', Departure date: ' + departuredate + ', Return date: ' + returndate);
+    const departPaths = getPaths(flights, source, destination, parseInt(numberofstops), departuredate, departuredate);
+    console.log('getPaths(' + destination + ', ' + source + ', ' + numberofstops + ', ' + returndate + ', ' + returndate + ')');
+    const returnPaths = getPaths(flights, destination, source, parseInt(numberofstops), returndate, returndate);
+    console.log('Departure paths: ' + departPaths.length);
+    console.log('Return paths: ' + returnPaths.length);
+    res.status(200).send({ status: 'success', data: {departPaths, returnPaths} });
 });
 
 const server = app.listen(3001, '127.0.0.1', () => {
