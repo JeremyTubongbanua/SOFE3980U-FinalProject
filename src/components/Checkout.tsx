@@ -6,14 +6,6 @@ const Checkout: React.FC = () => {
   const [email, setEmail] = useState("");
   //   const history = useHistory();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Perform form submission logic here
-    // ...
-
-    // Redirect to another page
-  };
-
   return (
     // <form onSubmit={handleSubmit}>
     <div className=" flex flex-col p-5 items-center gap-5 ">

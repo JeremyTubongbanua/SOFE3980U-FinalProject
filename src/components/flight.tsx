@@ -7,6 +7,7 @@ interface FlightProps {
   departureTime: string;
   arrivalTime: string;
   totalFlightTime: string;
+  withCheckBox: boolean;
 }
 
 const Flight: React.FC<FlightProps> = ({
@@ -15,35 +16,46 @@ const Flight: React.FC<FlightProps> = ({
   departureTime,
   arrivalTime,
   totalFlightTime,
+  withCheckBox,
 }) => {
   return (
     <div className="flightBox flex items-start border rounded-xl border-black text-black text-lg font-semibold leading-7">
       <p className="box self-stretch">
         Flight ID: <br />
-        {flightID}
+        <span className=" text-gray-500">{flightID}</span>
       </p>
       <p className="box self-stretch">
         Plane Name: <br />
-        {planeName}
+        <span className=" text-gray-500">{planeName}</span>
       </p>
       <p className="box self-stretch">
         Departure Time: <br />
-        {departureTime}
+        <span className=" text-gray-500">{departureTime}</span>
       </p>
       <p className="box self-stretch">
         Arrival Time: <br />
-        {arrivalTime}
+        <span className=" text-gray-500">{arrivalTime}</span>
       </p>
       <p className="box self-stretch">
         Total Flight Time: <br />
-        {totalFlightTime}
+        <span className=" text-gray-500">{totalFlightTime}</span>
       </p>
-      <div className="box">
-        <label>
-          <input type="radio" name="flightSelection" />
-          Select
-        </label>
-      </div>
+
+      {withCheckBox ? (
+        <div className="box">
+          <label>
+            <input type="checkbox" value={flightID} />
+            &nbsp; Select
+          </label>
+        </div>
+      ) : (
+        <div className="box">
+          <label>
+            <input type="radio" name="flightSelection" value={flightID} />
+            &nbsp; Select
+          </label>
+        </div>
+      )}
     </div>
   );
 };

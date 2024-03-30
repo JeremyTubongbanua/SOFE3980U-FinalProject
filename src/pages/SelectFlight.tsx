@@ -6,7 +6,6 @@ const SelectFlight: React.FC<Props> = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Perform form submission logic here
-    // ...
 
     // Redirect to another page
   };
@@ -24,14 +23,12 @@ const SelectFlight: React.FC<Props> = () => {
               Departure Flights <br /> A &rarr; B
             </h3>
 
-            <div className="flex flex-col gap-5">
-              <fieldset name="departures">
-                <Flight />
-                <Flight />
-                <Flight />
-                <Flight />
-              </fieldset>
-            </div>
+            <fieldset className="flex flex-col gap-5" name="departures">
+              <Flight />
+              <Flight />
+              <Flight />
+              <Flight />
+            </fieldset>
           </div>
         </div>
 
@@ -48,14 +45,19 @@ const SelectFlight: React.FC<Props> = () => {
               Return Flights <br /> B &rarr; A
             </h3>
 
-            <div className="flex flex-col gap-5">
-              <fieldset name="returns">
-                <Flight />
-                <Flight />
-                <Flight />
-                <Flight />
-              </fieldset>
-            </div>
+            <fieldset className="flex flex-col gap-5" name="returns">
+              <Flight
+                flightID="1245"
+                planeName="meowplane"
+                departureTime="2"
+                arrivalTime="2"
+                totalFlightTime="4"
+                withCheckBox={true}
+              />
+              <Flight withCheckBox={true} />
+              <Flight withCheckBox={true} />
+              <Flight withCheckBox={true} />
+            </fieldset>
           </div>
         </div>
 
