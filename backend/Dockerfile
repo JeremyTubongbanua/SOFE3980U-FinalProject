@@ -2,9 +2,11 @@ FROM node
 
 EXPOSE 3001
 
-WORKDIR /app/backend
+WORKDIR /app
 
 COPY . .
+
+WORKDIR /app/backend
 
 RUN npm install
 
