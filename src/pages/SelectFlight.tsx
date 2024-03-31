@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Flight from "../components/flight";
 import Checkout from "../components/Checkout";
+import { useNavigate } from "react-router-dom";
 
 const SelectFlight: React.FC<Props> = () => {
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Perform form submission logic here
 
-    // Redirect to another page
+    fetch(
+      "http://jeremymark.ca:3001/generatereceipt?departureflightids=[1,2,3]&returnflightids=[8]&name=John Doe&email=johndoe@gmail.com"
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        // Redirect to the new page with the fetched data
+        console.log(json);
+        navigate("/receipt", { state: { data: json } });
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
