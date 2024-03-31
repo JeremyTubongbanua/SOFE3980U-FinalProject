@@ -30,7 +30,7 @@ jobs:
           file: backend/Dockerfile
           push: true
           tags: |
-            sofe3980u-finalproject/backend:latest
+            jerryshum26/sofe3980u-finalproject:latest
           platforms: |
             linux/amd64
             linux/arm64/v8
