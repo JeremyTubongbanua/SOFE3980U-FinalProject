@@ -10,21 +10,12 @@ app.use(cors());
 app.use(express.json());
 dotenv.config({ path: './.env' });
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    port: process.env.DB_PORT,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-});
+host = '127.0.0.1'
 
-db.connect((err) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('Successfully connected to database: ' + process.env.DB_DATABASE + ' as ' + process.env.DB_USER + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT);
-    }
-});
+// get arg0 as the host
+if (process.argv.length > 2) {
+    host = process.argv[2];
+}
 
 app.get('/generateoptions', (req, res) => {
     const query = req.query;
@@ -97,12 +88,10 @@ app.get('/generatereceipt', (req, res) => {
             totalairtime: calculateAirTimeFlights(deptflights) + (returnflightids != null ? calculateAirTimeFlights(returnflights) : 0),
         }
     }
-
-    res.status(200).send(obj);  
-
+    res.status(200).send(obj);
 });
 
-const server = app.listen(3001, '127.0.0.1', () => {
+const server = app.listen(3001, host, () => {
     const host = server.address().address;
     const port = server.address().port;
     console.log(`API listening at http://${host}:${port}`);
