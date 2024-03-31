@@ -1,16 +1,27 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import ReceiptFlight from "../components/ReceiptFlight";
 
 const Receipt = () => {
-  // Access the location object
   const location = useLocation();
-
-  // Extract the data from the location.state property
-  const data = location.state?.data; // Access data using optional chaining
-
+  const data = location.state?.data;
   console.log(data);
 
-  // ... rest of your Receipt component logic to display data
+  function generateTransactionId(length = 8) {
+    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const digits = "0123456789";
+    const charPool = letters + digits;
+
+    let transactionId = "";
+    for (let i = 0; i < length; i++) {
+      transactionId += charPool.charAt(
+        Math.floor(Math.random() * charPool.length)
+      );
+    }
+
+    return transactionId;
+  }
+
   return (
     <div className="flex flex-col items w-full p-10 gap-5">
       <div className="flex flex-col items-center gap-2">
@@ -21,29 +32,65 @@ const Receipt = () => {
       </div>
 
       <div className="flex flex-col p-5 justify-center items-center gap-5">
-        <div className="flex flex-col flex-start">
-          <p>Name: Jeremy Mark Tubongbanua</p>
-          <p>Email: Jeremy Mark Tubongbanua</p>
+        <div className="flex flex-col flex-start text-black font-semibold text-xl">
+          <p>Name: {data.data.name}</p>
+          <p>Email: {data.data.email}</p>
         </div>
 
         <h3 className="text-2xl font-semibold text-gray-600">
-          Transcation ID: 1231231
+          Transcation ID: {generateTransactionId()}
         </h3>
 
-        <hr className="text-gray-600 w-4/12" />
+        <hr className="text-gray-600 w-[500px]" />
 
-        <div className="flex flex-col items-center ">
+        <div className="flex flex-col items-center gap-5">
           <h3 className="text-black text-3xl font-semibold">
             Departure Flight
           </h3>
-          <div className="flex flex-col g-3" id="departure-container"></div>
+
+          <div className="flex flex-col gap-3" id="departure-container">
+            {data.data.departureflights.flights.map((flight) => (
+              <ReceiptFlight
+                flightID={flight.flightid}
+                planeName={flight.planename}
+                departureDate={flight.departdate}
+                departureTime={flight.departtime}
+                arrivalDate={flight.arrivedate}
+                arrivalTime={flight.arrivetime}
+                totalFlightTime={flight.arrivetime - flight.departureTime}
+              />
+            ))}
+          </div>
+
+          <h3 className="text-2xl font-semibold text-green-500">
+            Total Air Time: {data.data.departureflights.totalairtime}
+          </h3>
+        </div>
+
+        <hr className="text-gray-600 w-[500px]" />
+
+        <div className="flex flex-col items-center gap-5">
+          <h3 className="text-black text-3xl font-semibold">Return Flights</h3>
+
+          <div className="flex flex-col gap-3" id="arrival-container">
+            {data.data.returnflights.flights.map((flight) => (
+              <ReceiptFlight
+                flightID={flight.flightid}
+                planeName={flight.planename}
+                departureDate={flight.departdate}
+                departureTime={flight.departtime}
+                arrivalDate={flight.arrivedate}
+                arrivalTime={flight.arrivetime}
+                totalFlightTime={flight.arrivetime - flight.departureTime}
+              />
+            ))}
+          </div>
+
+          <h3 className="text-2xl font-semibold text-green-500">
+            Total Air Time: {data.data.departureflights.totalairtime}
+          </h3>
         </div>
       </div>
-
-      {/* Display data from "data" prop */}
-      <p>Name: {data.data.name}</p>
-      <p>Email: {data?.email}</p>
-      {/* ... display other data as needed */}
     </div>
   );
 };
