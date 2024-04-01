@@ -1,6 +1,8 @@
 import React from "react";
 
 interface ReceiptFlightProps {
+  sourceID: string;
+  destinationID: string;
   flightID: string;
   planeName: string;
   departureDate: string;
@@ -11,6 +13,8 @@ interface ReceiptFlightProps {
 }
 
 const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
+  sourceID,
+  destinationID,
   flightID,
   planeName,
   departureDate,
@@ -56,6 +60,9 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
       <h3 className=" font-semibold text-2xl">Flight #: asdasdasdasd</h3>
 
       <div className=" text-gray-500 text-lg font-semibold">
+        <p>
+          {sourceID} &rarr; {destinationID}
+        </p>
         <p>Plane: {planeName}</p>
         <p>Flight ID: {flightID}</p>
       </div>

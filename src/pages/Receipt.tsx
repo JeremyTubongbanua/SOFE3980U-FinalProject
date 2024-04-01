@@ -8,7 +8,7 @@ const Receipt = () => {
   console.log(data);
 
   function generateTransactionId(length = 8) {
-    const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const digits = "0123456789";
     const charPool = letters + digits;
 
@@ -41,7 +41,7 @@ const Receipt = () => {
           Transcation ID: {generateTransactionId()}
         </h3>
 
-        <hr className="text-gray-600 w-[500px]" />
+        <hr className="text-gray-600 w-[500px] h-2" />
 
         <div className="flex flex-col items-center gap-5">
           <h3 className="text-black text-3xl font-semibold">
@@ -51,6 +51,8 @@ const Receipt = () => {
           <div className="flex flex-col gap-3" id="departure-container">
             {data.data.departureflights.flights.map((flight) => (
               <ReceiptFlight
+                sourceID={flight.sourceid}
+                destinationID={flight.destinationid}
                 flightID={flight.flightid}
                 planeName={flight.planename}
                 departureDate={flight.departdate}
@@ -75,6 +77,8 @@ const Receipt = () => {
           <div className="flex flex-col gap-3" id="arrival-container">
             {data.data.returnflights.flights.map((flight) => (
               <ReceiptFlight
+                sourceID={flight.sourceid}
+                destinationID={flight.destinationid}
                 flightID={flight.flightid}
                 planeName={flight.planename}
                 departureDate={flight.departdate}
