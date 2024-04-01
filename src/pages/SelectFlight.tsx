@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Flight from "../components/flight";
-import Checkout from "../components/Checkout";
 import { useNavigate } from "react-router-dom";
 
 const SelectFlight: React.FC<Props> = () => {
   const navigate = useNavigate();
+  const [nameValue, setNameValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+
+  const handleNameChange = (event) => {
+    setNameValue(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmailValue(event.target.value);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     fetch(
-      "http://jeremymark.ca:3001/generatereceipt?departureflightids=[1,2,3]&returnflightids=[8]&name=John Doe&email=johndoe@gmail.com"
+      "http://jeremymark.ca:3001/generatereceipt?departureflightids=[1,2,3]&returnflightids=[8]&name=" +
+        nameValue +
+        "&email=" +
+        emailValue
     )
       .then((response) => response.json())
       .then((json) => {
@@ -35,10 +47,22 @@ const SelectFlight: React.FC<Props> = () => {
             </h3>
 
             <fieldset className="flex flex-col gap-5" name="departures">
-              <Flight />
-              <Flight />
-              <Flight />
-              <Flight />
+              <Flight
+                flightID="1245"
+                planeName="meowplane"
+                departureTime="2"
+                arrivalTime="2"
+                totalFlightTime="4"
+                withCheckBox={true}
+              />
+              <Flight
+                flightID="1245"
+                planeName="meowplane"
+                departureTime="2"
+                arrivalTime="2"
+                totalFlightTime="4"
+                withCheckBox={true}
+              />
             </fieldset>
           </div>
         </div>
@@ -65,16 +89,68 @@ const SelectFlight: React.FC<Props> = () => {
                 totalFlightTime="4"
                 withCheckBox={true}
               />
-              <Flight withCheckBox={true} />
-              <Flight withCheckBox={true} />
-              <Flight withCheckBox={true} />
+              <Flight
+                flightID="1245"
+                planeName="meowplane"
+                departureTime="2"
+                arrivalTime="2"
+                totalFlightTime="4"
+                withCheckBox={true}
+              />
             </fieldset>
           </div>
         </div>
 
         {/* ----------------------- */}
         <hr className="text-black w-9/12 " />
-        <Checkout />
+        {/* Checkout: */}
+        <div>
+          <div className=" flex flex-col p-5 items-center gap-5 ">
+            <h3 className=" font-semibold text-black text-2xl">Checkout</h3>
+            <div className="flex flex-col">
+              <label
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                htmlFor="fullname"
+              >
+                Full Name:
+              </label>
+              <input
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="fullname"
+                required
+                value={nameValue}
+                onChange={handleNameChange}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                htmlFor="email"
+              >
+                Email:
+              </label>
+              <input
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="email"
+                id="email"
+                required
+                value={emailValue}
+                onChange={handleEmailChange}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="bg-black text-white text-lg font-semibold border rounded-xl p-2 w-[200px] "
+            >
+              {" "}
+              Checkout
+            </button>
+          </div>
+        </div>
+
+        {/*  */}
       </div>
     </form>
   );
