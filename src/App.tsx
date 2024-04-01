@@ -1,13 +1,10 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import SelectFlight from "./pages/SelectFlight";
+import LandingPage from "./pages/LandingPage.js";
 
 function App() {
   return (
     <div>
-      <SelectFlight />
+      <LandingPage />
     </div>
   );
 }
