@@ -109,13 +109,13 @@ const SelectFlight: React.FC<Props> = () => {
             <h3 className=" font-semibold text-black text-2xl">Checkout</h3>
             <div className="flex flex-col">
               <label
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900"
                 htmlFor="fullname"
               >
                 Full Name:
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 type="text"
                 id="fullname"
                 required
@@ -125,13 +125,13 @@ const SelectFlight: React.FC<Props> = () => {
             </div>
             <div className="flex flex-col">
               <label
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900"
                 htmlFor="email"
               >
                 Email:
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 type="email"
                 id="email"
                 required
