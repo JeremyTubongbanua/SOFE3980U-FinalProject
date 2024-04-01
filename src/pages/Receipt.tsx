@@ -22,6 +22,18 @@ const Receipt = () => {
     return transactionId;
   }
 
+  function convertHour(minutes) {
+    if (minutes < 0) {
+      return -1; // Or throw an error if you prefer
+    }
+
+    // Calculate the number of hours
+    const hours = Math.floor(minutes / 100);
+
+    // Return the number of hours
+    return hours;
+  }
+
   return (
     <div className="flex flex-col items w-full p-10 gap-5">
       <div className="flex flex-col items-center gap-2">
@@ -59,13 +71,14 @@ const Receipt = () => {
                 departureTime={flight.departtime}
                 arrivalDate={flight.arrivedate}
                 arrivalTime={flight.arrivetime}
-                totalFlightTime={flight.arrivetime - flight.departureTime}
+                airTime={flight.airtime}
               />
             ))}
           </div>
 
           <h3 className="text-2xl font-semibold text-green-500">
-            Total Air Time: {data.data.departureflights.totalairtime}
+            Total Departure Air Time:{" "}
+            {convertHour(data.data.departureflights.totalairtime)} hours
           </h3>
         </div>
 
@@ -85,15 +98,22 @@ const Receipt = () => {
                 departureTime={flight.departtime}
                 arrivalDate={flight.arrivedate}
                 arrivalTime={flight.arrivetime}
-                totalFlightTime={flight.arrivetime - flight.departureTime}
+                airTime={flight.airtime}
               />
             ))}
           </div>
 
           <h3 className="text-2xl font-semibold text-green-500">
-            Total Air Time: {data.data.departureflights.totalairtime}
+            Total Return Air Time:
+            {convertHour(data.data.returnflights.totalairtime)} hours
           </h3>
         </div>
+
+        <hr className="text-gray-600 w-[500px]" />
+
+        <h3 className="text-2xl font-semibold text-red-500">
+          Giga Air Time: {convertHour(data.data.totalairtime)} hours
+        </h3>
       </div>
     </div>
   );

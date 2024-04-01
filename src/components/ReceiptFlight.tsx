@@ -9,6 +9,7 @@ interface ReceiptFlightProps {
   departureTime: number;
   arrivalDate: string;
   arrivalTime: number;
+  airTime: number;
   totalFlightTime: number;
 }
 
@@ -21,43 +22,46 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
   departureTime,
   arrivalDate,
   arrivalTime,
-  totalFlightTime,
+  airTime,
 }) => {
-  function convertToTime(minutes) {
-    // Handle invalid input
-    if (minutes < 0 || minutes > 2300) {
-      return "Invalid input. Please enter a value between 0 and 2300.";
+  function convertToTime(timeNumber) {
+    const hours = Math.floor(timeNumber / 100);
+    const minutes = timeNumber % 100;
+
+    // Validate the input for hours and minutes
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+      return "Invalid time format";
     }
 
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
+    // Determine AM/PM
+    const amPm = hours >= 12 ? "pm" : "am";
 
-    const formattedHours = hours === 0 ? 12 : hours % 12; // Handle 12 midnight case
-    const amPm = hours < 12 ? "am" : "pm";
+    // Convert hours to 12-hour format, adjusting for "0"
+    let formattedHours = (hours % 12 || 12).toString(); // Convert to string
 
-    return `${formattedHours.toString().padStart(2, "0")}:${remainingMinutes
-      .toString()
-      .padStart(2, "0")}${amPm}`;
+    // Format hours and minutes with leading zeros
+    formattedHours = formattedHours.padStart(2, "0"); // Apply padStart method
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+
+    // Construct the final time string
+    return `${formattedHours}:${formattedMinutes} ${amPm}`;
   }
 
-  function calculateHoursDifference(startTime, endTime) {
-    // Handle invalid input (outside 0-2300 range)
-    if (startTime < 0 || startTime > 2300 || endTime < 0 || endTime > 2300) {
-      return "Invalid input. Please enter times between 0 and 2300 (minutes).";
+  function convertHour(minutes) {
+    if (minutes < 0) {
+      return -1; // Or throw an error if you prefer
     }
 
-    // Calculate the total difference in minutes
-    const timeDifference = (endTime - startTime) % 1440; // Wrap around for cases exceeding 24 hours
-
     // Calculate the number of hours
-    const hours = Math.floor(timeDifference / 60);
+    const hours = Math.floor(minutes / 100);
 
+    // Return the number of hours
     return hours;
   }
 
   return (
     <div className="flex flex-col p-4 gap-3 items-start w-full border border-black rounded-xl">
-      <h3 className=" font-semibold text-2xl">Flight #: asdasdasdasd</h3>
+      <h3 className=" font-semibold text-2xl">Flight #: {flightID}</h3>
 
       <div className=" text-gray-500 text-lg font-semibold">
         <p>
@@ -69,16 +73,17 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
 
       <div className="text-gray-500 text-lg font-semibold">
         <p>
-          Departure: {departureDate} | {convertToTime(departureTime)}
+          Departure: {departureDate} | {convertToTime(departureTime)} |{" "}
+          {sourceID}
         </p>
         <p>
-          Arrival: {arrivalDate} | {convertToTime(arrivalTime)}
+          Arrival: {arrivalDate} | {convertToTime(arrivalTime)} |{" "}
+          {destinationID}
         </p>
       </div>
 
       <p className="text-black00 text-lg font-bold">
-        Flight time: {calculateHoursDifference(departureTime, arrivalTime)}{" "}
-        hours
+        Flight time: {convertHour(airTime)} hours
       </p>
     </div>
   );
