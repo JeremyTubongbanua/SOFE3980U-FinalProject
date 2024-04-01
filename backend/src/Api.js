@@ -70,6 +70,17 @@ app.get('/generatereceipt', (req, res) => {
         }
     }
 
+    // for each flight, put air time
+    for (let i = 0; i < deptflights.length; i++) {
+        deptflights[i].airtime = calculateAirTimeFlights([deptflights[i]]);
+    }
+
+    if(returnflightids != 'null') {
+        for (let i = 0; i < returnflights.length; i++) {
+            returnflights[i].airtime = calculateAirTimeFlights([returnflights[i]]);
+        }
+    }
+
 
 
     let obj = {
