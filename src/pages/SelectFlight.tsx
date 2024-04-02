@@ -22,9 +22,10 @@ const SelectFlight: React.FC<Props> = () => {
 
     // Calculate the number of hours
     const hours = Math.floor(minutes / 100);
+    const decimal = (minutes % 100) / 60;
 
-    // Return the number of hours
-    return hours;
+    // Return the number of hours with decimal
+    return hours + decimal;
   }
 
   function convertToTime(timeNumber) {
@@ -176,7 +177,7 @@ const SelectFlight: React.FC<Props> = () => {
                       <span>
                       <h4 className="font-semibold text-gray-800 text-lg mb-2">
                         Total Flight Time:{" "}
-                        {convertHour(departDataAirTimes[index])} hours
+                        {convertHour(departDataAirTimes[flightids])} hours
                       </h4>
                     </span>
 
@@ -206,6 +207,7 @@ const SelectFlight: React.FC<Props> = () => {
 
                 <fieldset className="flex flex-col gap-5" name="returns">
                   {returnData.map((flights, index) => {
+                    let flightids = flights.map((flight) => flight.flightid).join(',');
                     return (
                       <div>
                         <span>
@@ -231,7 +233,7 @@ const SelectFlight: React.FC<Props> = () => {
                           </div>
                           <h4 className="font-semibold text-gray-800 text-lg mb-2">
                             Total Flight Time:{" "}
-                            {convertHour(returnDataAirTimes[index])} hours
+                            {convertHour(returnDataAirTimes[flightids])} hours
                           </h4>
                         </span>
 
