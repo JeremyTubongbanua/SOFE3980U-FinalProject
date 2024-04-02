@@ -51,7 +51,7 @@ function LandingPage() {
     // alert('sourceid: ' + selectedFrom + ' destination: ' + selectedTo + ' start date: ' + startDate + ' end date: ' + endDate + ' round trip: ' + isRoundTrip + ' number of flights: ' + numFlights);
 
     // check that selectedFrom and selectedTo are not null
-    if (selectedFrom == null || selectedTo == null) {
+    if (selectedFrom == null || selectedTo == null || selectedFrom == "" || selectedTo == "") {
       alert("Please select a source and destination");
       return;
     }
@@ -118,6 +118,7 @@ function LandingPage() {
             if (json.data.returnPaths == null) {
               json.data.returnPaths = [];
             }
+            alert('We found some flights for you!! 🤑🤑🤑🤑. Click OK');
             navigate("/select", {
               state: {
                 departPaths: json.data.departPaths,
