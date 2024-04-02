@@ -24,8 +24,11 @@ const SelectFlight: React.FC<Props> = () => {
     const hours = Math.floor(minutes / 100);
     const decimal = (minutes % 100) / 60;
 
-    // Return the number of hours with decimal
-    return hours + decimal;
+    // Round the decimal to 2 decimal places
+    const roundedDecimal = Math.round(decimal * 100) / 100;
+
+    // Return the number of hours with rounded decimal
+    return hours + roundedDecimal;
   }
 
   function convertToTime(timeNumber) {
@@ -85,7 +88,7 @@ const SelectFlight: React.FC<Props> = () => {
 
   const [departDataAirTimes, setDepartDataAirTimes] = useState({});
   const [returnDataAirTimes, setReturnDataAirTimes] = useState({});
-  
+
   const departData = location.state?.departPaths;
   const returnData = location.state?.returnPaths;
 
@@ -103,38 +106,40 @@ const SelectFlight: React.FC<Props> = () => {
           console.log(json);
           const totalFlightTime = json.data;
           setDepartDataAirTimes((prevState, props) => {
-            return {...prevState, [flightids]: totalFlightTime};
+            return { ...prevState, [flightids]: totalFlightTime };
           });
-          console.log('Generated time for flightids' + totalFlightTime + ' ' + flightids)
+          console.log(
+            "Generated time for flightids" + totalFlightTime + " " + flightids
+          );
         })
         .catch((error) => console.error(error));
-      })
+    });
   }, []);
 
   useEffect(() => {
     const returnData = location.state?.returnPaths;
 
-      if(returnData.length !== 0) {
-        returnData.map((flights) =>  {
-          let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
-          let flightids = flights.map(flight => flight.flightid).join(',');
-          url += flightids;
-          url += ']';
-          console.log(url);
-          fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-              console.log(json);
-              const totalFlightTime = json.data;
-              setReturnDataAirTimes((prevState, props) => {
-                return {...prevState, [flightids]: totalFlightTime};
-              });
-            })
-            .catch((error) => console.error(error));
-          });
-        }
-  console.log(returnData);
-      }, []);
+    if (returnData.length !== 0) {
+      returnData.map((flights) => {
+        let url = "http://jeremymark.ca:3001/calculateairtime?flightids=[";
+        let flightids = flights.map((flight) => flight.flightid).join(",");
+        url += flightids;
+        url += "]";
+        console.log(url);
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            const totalFlightTime = json.data;
+            setReturnDataAirTimes((prevState, props) => {
+              return { ...prevState, [flightids]: totalFlightTime };
+            });
+          })
+          .catch((error) => console.error(error));
+      });
+    }
+    console.log(returnData);
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -156,25 +161,29 @@ const SelectFlight: React.FC<Props> = () => {
 
             <fieldset className="flex flex-col gap-5" name="departureOption">
               {departData.map((flights, index) => {
-                let flightids = flights.map(flight => flight.flightid).join(',');
-                  return (
-                    <div>
-                      <span>
-                        <h5>Option {index+1}</h5>
-                        <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[flightids]}</h4>
-                      </span>
-                      <div>
-                        <input type="radio" id={'option-' + (index+1)} name="departureOption" onClick={
-                          () => {
-                            setSelectedDepartureFlightIds((prevState, props) => {
-                              return [flights.map(flight => flight.flightid)];
-                            })
-                          }
-                        }
-                        
-                        />
-                      </div>
-                      <span>
+                let flightids = flights
+                  .map((flight) => flight.flightid)
+                  .join(",");
+                return (
+                  <div>
+                    <div className="flex gap-4 items-center">
+                      <h3 className="font-semibold text-gray-500 text-xl">
+                        Option {index + 1}
+                      </h3>
+
+                      <input
+                        className="h-[20px] w-[20px]"
+                        type="radio"
+                        id={"option-" + (index + 1)}
+                        name="departureOption"
+                        onClick={() => {
+                          setSelectedDepartureFlightIds((prevState, props) => {
+                            return [flights.map((flight) => flight.flightid)];
+                          });
+                        }}
+                      />
+                    </div>
+                    <span>
                       <h4 className="font-semibold text-gray-800 text-lg mb-2">
                         Total Flight Time:{" "}
                         {convertHour(departDataAirTimes[flightids])} hours
@@ -207,7 +216,9 @@ const SelectFlight: React.FC<Props> = () => {
 
                 <fieldset className="flex flex-col gap-5" name="returns">
                   {returnData.map((flights, index) => {
-                    let flightids = flights.map((flight) => flight.flightid).join(',');
+                    let flightids = flights
+                      .map((flight) => flight.flightid)
+                      .join(",");
                     return (
                       <div>
                         <span>
