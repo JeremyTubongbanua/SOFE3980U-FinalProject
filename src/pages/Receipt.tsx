@@ -48,6 +48,8 @@ const Receipt = () => {
     return hours;
   }
 
+  console.log(data.data);
+
   return (
     <div className="flex flex-col items w-full p-10 gap-5">
       <div className="flex flex-col items-center gap-2">

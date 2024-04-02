@@ -50,16 +50,17 @@ const FlightBox: React.FC<FlightProps> = ({flights}) => {
             {flights.map((flight: any, index) => (
                 <div>
                 <Flight
-                sourceID={flight.sourceid}
-                destinationID={flight.destinationid}
-                departDate={flight.departdate}
-                arriveDate={flight.arrivedate}
-                flightID={flight.flightid}
-                planeName={flight.planename}
-                departureTime={convertToTime(flight.departtime)}
-                arrivalTime={convertToTime(flight.arrivetime)}
-                withCheckBox={false}
-                totalFlightTime={convertToTime(flight.totalflighttime)}
+                    key={index}
+                    sourceID={flight.sourceid}
+                    destinationID={flight.destinationid}
+                    departDate={flight.departdate}
+                    arriveDate={flight.arrivedate}
+                    flightID={flight.flightid}
+                    planeName={flight.planename}
+                    departureTime={convertToTime(flight.departtime)}
+                    arrivalTime={convertToTime(flight.arrivetime)}
+                    withCheckBox={false}
+                    totalFlightTime={convertToTime(flight.totalflighttime)}
                 />
                 </div>
             ))}
