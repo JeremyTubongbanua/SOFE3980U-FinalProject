@@ -56,9 +56,13 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
 
     // Calculate the number of hours
     const hours = Math.floor(minutes / 100);
+    const decimal = (minutes % 100) / 60;
 
-    // Return the number of hours
-    return hours;
+    // Round the decimal to 2 decimal places
+    const roundedDecimal = Math.round(decimal * 100) / 100;
+
+    // Return the number of hours with rounded decimal
+    return hours + roundedDecimal;
   }
 
   function convertTo24(time) {
