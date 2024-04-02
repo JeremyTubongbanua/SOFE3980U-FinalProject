@@ -14,8 +14,6 @@ Final Project for SOFE3980U - Software Quality
 
 # API Specification
 
-# api-specification
-
 ## get flight
 
 GET /getflight
