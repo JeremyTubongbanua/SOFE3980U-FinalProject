@@ -8,6 +8,18 @@ const SelectFlight: React.FC<Props> = () => {
   const navigate = useNavigate();
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
+  const [checkedFlights, setCheckedFlights] = useState([]);
+
+  const handleCheckboxChange = (flightID: number) => {
+    const newCheckedFlights = [...checkedFlights]; // Create a copy to avoid mutation
+    if (checkedFlights.includes(flightID)) {
+      const index = newCheckedFlights.indexOf(flightID);
+      newCheckedFlights.splice(index, 1); // Remove from checked if already checked
+    } else {
+      newCheckedFlights.push(flightID); // Add to checked if not checked
+    }
+    setCheckedFlights(newCheckedFlights);
+  };
 
   function convertToTime(timeNumber) {
     const hours = Math.floor(timeNumber / 100);
@@ -60,7 +72,8 @@ const SelectFlight: React.FC<Props> = () => {
 
   const departData = location.state?.departPaths;
   const returnData = location.state?.returnPaths;
-  console.log(departData[1][0].order);
+
+  console.log(returnData);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -82,6 +95,7 @@ const SelectFlight: React.FC<Props> = () => {
                   planeName={flight[0].planename}
                   departureTime={convertToTime(flight[0].departtime)}
                   arrivalTime={convertToTime(flight[0].arrivetime)}
+                  withCheckBox={true}
                 />
               ))}
             </fieldset>
@@ -91,31 +105,35 @@ const SelectFlight: React.FC<Props> = () => {
         {/* ------------------------------------------------------ */}
         <hr className="text-black w-9/12 " />
 
-        <div className="flex flex-col items-center">
-          <h1 className=" text-black text-5xl font-extrabold leading-10">
-            Return Flights
-          </h1>
+        {returnData.length !== 0 && (
+          <div>
+            <div className="flex flex-col items-center">
+              <h1 className=" text-black text-5xl font-extrabold leading-10">
+                Return Flights
+              </h1>
+              <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
+                <h3 className="text-black text-2xl font-semibold leading-8">
+                  Return Flights <br /> B &rarr; A
+                </h3>
 
-          <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
-            <h3 className="text-black text-2xl font-semibold leading-8">
-              Return Flights <br /> B &rarr; A
-            </h3>
-
-            <fieldset className="flex flex-col gap-5" name="returns">
-              {returnData.map((flight) => (
-                <Flight
-                  flightID={flight[0].flightid}
-                  planeName={flight[0].planename}
-                  departureTime={convertToTime(flight[0].departtime)}
-                  arrivalTime={convertToTime(flight[0].arrivetime)}
-                />
-              ))}
-            </fieldset>
+                <fieldset className="flex flex-col gap-5" name="returns">
+                  {returnData.map((flight) => (
+                    <Flight
+                      flightID={flight[0].flightid}
+                      planeName={flight[0].planename}
+                      departureTime={convertToTime(flight[0].departtime)}
+                      arrivalTime={convertToTime(flight[0].arrivetime)}
+                      withCheckBox={true}
+                    />
+                  ))}
+                </fieldset>
+              </div>
+            </div>
+            {/* ----------------------- */}
+            <hr className="text-black w-9/12 " />
           </div>
-        </div>
+        )}
 
-        {/* ----------------------- */}
-        <hr className="text-black w-9/12 " />
         {/* Checkout: */}
         <div>
           <div className=" flex flex-col p-5 items-center gap-5 ">
