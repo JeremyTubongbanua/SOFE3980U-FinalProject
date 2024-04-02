@@ -170,7 +170,7 @@ function LandingPage() {
           <button
             type="button"
             onClick={hasFormSubmit}
-            className="flex flex-col justify-center items-center p-3 w-full self-stretch border rounded-xl bg-black text-white text-xl font-semibold mt-8"
+            className="flex flex-col justify-center items-center p-3 w-full self-stretch border rounded-xl bg-black text-white text-xl font-semibold mt-8 hover:bg-gray-600 duration-200"
           >
             View Flights
           </button>
