@@ -1,11 +1,36 @@
 import React, { useState, useEffect } from "react";
 import Flight from "../components/flight";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SelectFlight: React.FC<Props> = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
+
+  function convertToTime(timeNumber) {
+    const hours = Math.floor(timeNumber / 100);
+    const minutes = timeNumber % 100;
+
+    // Validate the input for hours and minutes
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+      return "Invalid time format";
+    }
+
+    // Determine AM/PM
+    const amPm = hours >= 12 ? "pm" : "am";
+
+    // Convert hours to 12-hour format, adjusting for "0"
+    let formattedHours = (hours % 12 || 12).toString(); // Convert to string
+
+    // Format hours and minutes with leading zeros
+    formattedHours = formattedHours.padStart(2, "0"); // Apply padStart method
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+
+    // Construct the final time string
+    return `${formattedHours}:${formattedMinutes} ${amPm}`;
+  }
 
   const handleNameChange = (event) => {
     setNameValue(event.target.value);
@@ -33,6 +58,10 @@ const SelectFlight: React.FC<Props> = () => {
       .catch((error) => console.error(error));
   };
 
+  const departData = location.state?.departPaths;
+  const returnData = location.state?.returnPaths;
+  console.log(departData[1][0].order);
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col w-full p-20 gap-20 items-center">
@@ -47,22 +76,14 @@ const SelectFlight: React.FC<Props> = () => {
             </h3>
 
             <fieldset className="flex flex-col gap-5" name="departures">
-              <Flight
-                flightID="1245"
-                planeName="meowplane"
-                departureTime="2"
-                arrivalTime="2"
-                totalFlightTime="4"
-                withCheckBox={true}
-              />
-              <Flight
-                flightID="1245"
-                planeName="meowplane"
-                departureTime="2"
-                arrivalTime="2"
-                totalFlightTime="4"
-                withCheckBox={true}
-              />
+              {departData.map((flight) => (
+                <Flight
+                  flightID={flight[0].flightid}
+                  planeName={flight[0].planename}
+                  departureTime={convertToTime(flight[0].departtime)}
+                  arrivalTime={convertToTime(flight[0].arrivetime)}
+                />
+              ))}
             </fieldset>
           </div>
         </div>
@@ -81,22 +102,14 @@ const SelectFlight: React.FC<Props> = () => {
             </h3>
 
             <fieldset className="flex flex-col gap-5" name="returns">
-              <Flight
-                flightID="1245"
-                planeName="meowplane"
-                departureTime="2"
-                arrivalTime="2"
-                totalFlightTime="4"
-                withCheckBox={true}
-              />
-              <Flight
-                flightID="1245"
-                planeName="meowplane"
-                departureTime="2"
-                arrivalTime="2"
-                totalFlightTime="4"
-                withCheckBox={true}
-              />
+              {returnData.map((flight) => (
+                <Flight
+                  flightID={flight[0].flightid}
+                  planeName={flight[0].planename}
+                  departureTime={convertToTime(flight[0].departtime)}
+                  arrivalTime={convertToTime(flight[0].arrivetime)}
+                />
+              ))}
             </fieldset>
           </div>
         </div>

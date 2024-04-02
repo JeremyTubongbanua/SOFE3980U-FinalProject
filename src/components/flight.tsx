@@ -36,10 +36,10 @@ const Flight: React.FC<FlightProps> = ({
         Arrival Time: <br />
         <span className=" text-gray-500">{arrivalTime}</span>
       </p>
-      <p className="box self-stretch">
+      {/* <p className="box self-stretch">
         Total Flight Time: <br />
         <span className=" text-gray-500">{totalFlightTime}</span>
-      </p>
+      </p> */}
 
       {withCheckBox ? (
         <div className="box">
