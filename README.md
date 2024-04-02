@@ -1,4 +1,4 @@
-
+# SOFE 3980U Final Project
 
 ## get flight
 
@@ -46,11 +46,6 @@ GET /calculateairtime
 
 ### Request
 
-<<<<<<< Updated upstream
-| Name | Description | Available Values |
-| ---- | ----------- | ----------------- |
-| flightids | The ids of the flight | e.g. [1,2] (array of int) |
-=======
 | Name | Description | Avaialble Values |
 | ---- | ----------- | ----------------- |
 | flightids | The ids of the flights | e.g. [1, 2] (array of ints) |
@@ -58,7 +53,6 @@ GET /calculateairtime
 Example
 
 `http://jeremymark.ca:3001/calculateairtime?flightids=[560,704]`
->>>>>>> Stashed changes
 
 ### Response
 
@@ -67,16 +61,9 @@ Example
 ```json
 {
     "status": "success",
-<<<<<<< Updated upstream
-    "data": 1400
-}
-```
-
-=======
     "data": 900
 }
 ```
->>>>>>> Stashed changes
 
 ## generate options
 
