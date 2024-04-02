@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
   const navigate = useNavigate();
-  const fromOptions = ["YYZ", "YYC", "YVR", "YOO"];
-  const toOptions = ["YYZ", "YYC", "YVR", "YOO"];
+  const fromOptions = ["YYZ", "YYC", "YVR", "YOO", "SFO"];
+  const toOptions = ["YYZ", "YYC", "YVR", "YOO", "SFO"];
   // const cabinClassOptions = ["Economy", "Business", "First Class"];
 
   const [isRoundTrip, setisRoundTrip] = useState(false);
@@ -85,10 +85,13 @@ function LandingPage() {
         if (json.status == "success") {
           if (json.data.departPaths.length == 0) {
             alert("No depart flights found for the given criteria");
-          } else if(json.data.returnPaths != null && json.data.returnPaths.length == 0) {
+          } else if (
+            json.data.returnPaths != null &&
+            json.data.returnPaths.length == 0
+          ) {
             alert("No return flights found for the given criteria");
           } else {
-            if(json.data.returnPaths == null) {
+            if (json.data.returnPaths == null) {
               json.data.returnPaths = [];
             }
             navigate("/select", {
