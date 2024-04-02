@@ -1,19 +1,15 @@
-# SOFE3980U-FinalProject
+# React + TypeScript + Vite
 
-Final Project for SOFE3980U - Software Quality
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# Group Members
+Currently, two official plugins are available:
 
-| Name                    | Student Number |
-| ----------------------- | -------------- |
-| Jeremy Mark Tubongbanua | 100849092      |
-| Jerry Shum              | 100845217      |
-| Emily Lai               | 100825007      |
-| Alina Mathew		  | 100853412	   |
-| Natasha Naorem          | 100845321      |
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Expanding the ESLint configuration
 
-# API Specification
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
 ## get flight
 
@@ -198,19 +194,9 @@ Example
     ]
     "totaltime": "5h 19m"
   },
-	"returnflights": {
-		"flights": [
-			{
-				"order": 1,
-				"flightid": 12345,
-				"planename": "Boeing 737",
-				"departuredate": "12/25/2020",
-				"departuretime": "1200",
-				"arrivaldate": "12/25/2020",
-				"arrivaltime": "1400",
-				"totaltime": "1h 43m"
-			}
-		]
-	}
 }
 ```
+
+- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
+- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
