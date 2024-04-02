@@ -11,6 +11,7 @@ interface ReceiptFlightProps {
   arrivalTime: number;
   airTime: number;
   totalFlightTime: number;
+  hour24Check: boolean;
 }
 
 const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
@@ -23,6 +24,7 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
   arrivalDate,
   arrivalTime,
   airTime,
+  hour24Check,
 }) => {
   function convertToTime(timeNumber) {
     const hours = Math.floor(timeNumber / 100);
@@ -59,6 +61,26 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
     return hours;
   }
 
+  function convertTo24(time) {
+    // Convert time to string and pad with leading zeros if necessary
+    const paddedTime = String(time).padStart(4, "0");
+
+    // Extract hours and minutes from the padded time
+    let hours = Math.floor(paddedTime / 100);
+    let minutes = paddedTime % 100;
+
+    // Validate hours and minutes
+    hours = Math.min(Math.max(0, hours), 23);
+    minutes = Math.min(Math.max(0, minutes), 59);
+
+    // Format hours and minutes to ensure leading zeros if necessary
+    const formattedHours = hours.toString().padStart(2, "0");
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+
+    // Concatenate hours and minutes with a colon and return the result
+    return formattedHours + ":" + formattedMinutes;
+  }
+
   return (
     <div className="flex flex-col p-4 gap-3 items-start w-full border border-black rounded-xl">
       <h3 className=" font-semibold text-2xl">Flight #: {flightID}</h3>
@@ -73,11 +95,15 @@ const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
 
       <div className="text-gray-500 text-lg font-semibold">
         <p>
-          Departure: {departureDate} | {convertToTime(departureTime)} |{" "}
-          {sourceID}
+          Departure: {departureDate} |
+          {hour24Check
+            ? convertTo24(departureTime)
+            : convertToTime(departureTime)}
+          | {sourceID}
         </p>
         <p>
-          Arrival: {arrivalDate} | {convertToTime(arrivalTime)} |{" "}
+          Arrival: {arrivalDate} |
+          {hour24Check ? convertTo24(arrivalTime) : convertToTime(arrivalTime)}|
           {destinationID}
         </p>
       </div>

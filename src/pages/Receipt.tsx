@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import ReceiptFlight from "../components/ReceiptFlight";
 
@@ -6,6 +6,12 @@ const Receipt = () => {
   const location = useLocation();
   const data = location.state?.data;
   console.log(data);
+
+  const [is24HourFormat, setIs24HourFormat] = useState(false);
+
+  const handleChange = (event) => {
+    setIs24HourFormat(!is24HourFormat);
+  };
 
   function generateTransactionId(length = 8) {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -54,6 +60,22 @@ const Receipt = () => {
         </h3>
 
         <hr className="text-gray-600 w-[500px] h-2" />
+        {/* 24 hour time toggle: */}
+        <div className="flex items-center justify-center gap-5">
+          <h3 className="text-2xl font-semibold text-gray-600">
+            Click here to use 24 hour time:
+          </h3>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={is24HourFormat}
+              onChange={handleChange}
+              className="p-5 h-[20px] w-[20px]"
+            />
+          </label>
+        </div>
+        <hr className="text-gray-600 w-[500px] h-2" />
 
         <div className="flex flex-col items-center gap-5">
           <h3 className="text-black text-3xl font-semibold">
@@ -72,6 +94,7 @@ const Receipt = () => {
                 arrivalDate={flight.arrivedate}
                 arrivalTime={flight.arrivetime}
                 airTime={flight.airtime}
+                hour24Check={is24HourFormat}
               />
             ))}
           </div>
@@ -99,6 +122,7 @@ const Receipt = () => {
                 arrivalDate={flight.arrivedate}
                 arrivalTime={flight.arrivetime}
                 airTime={flight.airtime}
+                hour24Check={is24HourFormat}
               />
             ))}
           </div>
