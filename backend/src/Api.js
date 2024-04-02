@@ -42,17 +42,21 @@ app.get('/generateoptions', (req, res) => {
     const departuredate = query.departuredate; // e.g. 2021-05-01
     const returndate = query.returndate; // e.g. 2021-05-01
     // check if all parameters are present
-    if (!source || !destination || !numberofstops || !departuredate || !returndate) {
+    if (!source || !destination || !numberofstops || !departuredate) {
         res.status(400).send('Missing parameters: source: ' + source + ', destination: ' + destination + ', numberofstops: ' + numberofstops + ', departuredate: ' + departuredate + ', returndate: ' + returndate);
         return;
     }
+    let data = {};
     console.log('Source: ' + source + ', Destination: ' + destination + ', Number of stops: ' + numberofstops + ', Departure date: ' + departuredate + ', Return date: ' + returndate);
     const departPaths = getPaths(flights, source, destination, parseInt(numberofstops), departuredate, departuredate);
-    console.log('getPaths(' + destination + ', ' + source + ', ' + numberofstops + ', ' + returndate + ', ' + returndate + ')');
-    const returnPaths = getPaths(flights, destination, source, parseInt(numberofstops), returndate, returndate);
+    data = { departPaths };
     console.log('Departure paths: ' + departPaths.length);
-    console.log('Return paths: ' + returnPaths.length);
-    res.status(200).send({ status: 'success', data: {departPaths, returnPaths} });
+    if(returndate != null) {
+        const returnPaths = getPaths(flights, destination, source, parseInt(numberofstops), returndate, returndate);
+        data = { departPaths, returnPaths };
+        console.log('Return paths: ' + returnPaths.length);
+    }
+    res.status(200).send({ status: 'success', data: data });
 });
 
 app.get('/generatereceipt', (req, res) => {
