@@ -59,8 +59,60 @@ const SelectFlight: React.FC<Props> = () => {
       .catch((error) => console.error(error));
   };
 
+  const [departDataAirTimes, setDepartDataAirTimes] = useState([]);
+  const [returnDataAirTimes, setReturnDataAirTimes] = useState([]);
+  
   const departData = location.state?.departPaths;
   const returnData = location.state?.returnPaths;
+  
+  useEffect(() => {
+    const departData = location.state?.departPaths;
+departData.map((flights) =>  {
+      let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
+      let flightids = flights.map(flight => flight.flightid).join(',');
+      url += flightids;
+      url += ']';
+      console.log(url);
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          const totalFlightTime = json.data;
+          setDepartDataAirTimes((prevState, props) => {
+            return [...prevState, totalFlightTime];
+          
+          });
+        })
+        .catch((error) => console.error(error));
+      })
+      console.log('departdads: ' + departDataAirTimes);
+  }, []);
+
+  useEffect(() => {
+    const returnData = location.state?.returnPaths;
+
+      if(returnData.length !== 0) {
+        returnData.map((flights) =>  {
+          let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
+          let flightids = flights.map(flight => flight.flightid).join(',');
+          url += flightids;
+          url += ']';
+          console.log(url);
+          fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+              console.log(json);
+              const totalFlightTime = json.data;
+              setReturnDataAirTimes((prevState, props) => {
+                return [...prevState, totalFlightTime];
+              });
+            })
+            .catch((error) => console.error(error));
+          })
+      }
+  }, []);
+  
+  
 
   console.log(returnData);
 
@@ -78,11 +130,11 @@ const SelectFlight: React.FC<Props> = () => {
             </h3>
 
             <fieldset className="flex flex-col gap-5" name="departures">
-              {departData.map((flights, index) => (
-                <div>
+              {departData.map((flights, index) => {
+                  return (<div>
                   <span>
                     <h5>Option {index+1}</h5>
-                    <h4>Total Flight Time: {}</h4>
+                    <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[index]}</h4>
                   </span>
                   <input type="checkbox" />
                 <FlightBox
@@ -90,8 +142,8 @@ const SelectFlight: React.FC<Props> = () => {
                   key={flights[0].flightid}
                   />
                   <br />
-                </div>
-              ))}
+                </div>);
+          })}
             </fieldset>
           </div>
         </div>
@@ -111,15 +163,22 @@ const SelectFlight: React.FC<Props> = () => {
                 </h3>
 
                 <fieldset className="flex flex-col gap-5" name="returns">
-                  {returnData.map((flight) => (
-                    <Flight
-                      flightID={flight[0].flightid}
-                      planeName={flight[0].planename}
-                      departureTime={convertToTime(flight[0].departtime)}
-                      arrivalTime={convertToTime(flight[0].arrivetime)}
-                      withCheckBox={true}
-                    />
-                  ))}
+                  {returnData.map((flights, index) => {
+                    return (
+                      <div>
+                        <span>
+                          <h5>Option {index+1}</h5>
+                          <h4>Total Flight Time: {returnDataAirTimes[index]}</h4>
+                        </span>
+                        <input type="checkbox" />
+                      <FlightBox
+                        flights={flights}
+                        key={flights[0].flightid}
+                        />
+                        <br />
+                      </div>
+                    );
+                  })}
                 </fieldset>
               </div>
             </div>
