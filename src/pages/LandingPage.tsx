@@ -53,7 +53,7 @@ function LandingPage() {
     const startMonth = startDate.getMonth() + 1;
     const startDay = startDate.getDate();
     const startYear = startDate.getFullYear();
-    const kStartMonth = startYear + "-" + startMonth + "-" + startDay;
+    const kStartMonth = startYear + "-" + startMonth.toString().padStart(2, '0') + "-" + startDay.toString().padStart(2, '0');
 
     let url =
       "http://jeremymark.ca:3001/generateoptions?source=" +
@@ -69,7 +69,7 @@ function LandingPage() {
       const endMonth = endDate.getMonth() + 1;
       const endDay = endDate.getDate();
       const endYear = endDate.getFullYear();
-      const kEndMonth = endYear + "-" + endMonth + "-" + endDay;
+      const kEndMonth = endYear + "-" + endMonth.toString().padStart(2, '0') + "-" + endDay.toString().padStart(2, '0');
       url = url + "&returndate=" + kEndMonth;
     }
 
