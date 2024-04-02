@@ -128,20 +128,16 @@ function LandingPage() {
 
         {/* Departure & Return */}
         <div>
-          <div className="border-2 border-black rounded-xl p-5">
-            <div className="flex text-xl justify-center text-center">
+          <div className="w-full border-2 border-black rounded-xl p-5 flex flex-col gap-5 items-start">
+            <h2 className="text-black text-2xl font-semibold">
               Select your date(s):
-            </div>
+            </h2>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "1.5rem",
-              }}
-            >
-              <div style={{ flex: 1, padding: "1rem" }}>
+            <div className="flex items-start just gap-10">
+              <div>
+                <h3 className="text-gray-600 text-md font-semibold">
+                  Departure Date
+                </h3>
                 <DatePicker
                   className="text-center border-2 border-gray text-black font-semibold rounded"
                   selectsStart
@@ -150,31 +146,33 @@ function LandingPage() {
                   startDate={startDate}
                 />
               </div>
-              <div style={{ flex: 1, padding: "1rem" }}>
+              <div>
                 {isRoundTrip && (
-                  <DatePicker
-                    className="text-center border-2 border-gray text-black font-semibold rounded"
-                    selectsEnd
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    endDate={endDate}
-                    startDate={startDate}
-                    minDate={startDate}
-                  />
+                  <div>
+                    <h3 className="text-gray-600 text-md font-semibold">
+                      Return Date
+                    </h3>
+                    <DatePicker
+                      className="text-center border-2 border-gray text-black font-semibold rounded"
+                      selectsEnd
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      endDate={endDate}
+                      startDate={startDate}
+                      minDate={startDate}
+                    />
+                  </div>
                 )}
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
           <button
             type="button"
             onClick={hasFormSubmit}
-            className="mt-4 bg-black text-white font-extrabold hover:bg-white hover:text-black rounded px-3 mr-2"
+            className="flex flex-col justify-center items-center p-3 w-full self-stretch border rounded-xl bg-black text-white text-xl font-semibold mt-8"
           >
-            {" "}
-            View Flights{" "}
+            View Flights
           </button>
         </div>
       </div>
