@@ -172,24 +172,21 @@ function LandingPage() {
             </div>
           </div>
 
-          {/* If yes, select # of flights */}
-          {isRoundTrip && (
-            <div>
-              <label className="flex flex-col items-start justify-start">
-                <h3 className="text-gray-600 text-md font-semibold mb-3">
-                  Number of Stops:
-                </h3>
-                <input
-                  type="number"
-                  value={numFlights}
-                  onChange={(event) => setNumFlights(event.target.value)}
-                  min={2}
-                  max={5}
-                  className="w-16 p-2 border border-gray-300 rounded-md"
-                />
-              </label>
-            </div>
-          )}
+          <div>
+            <label className="flex flex-col items-start justify-start">
+              <h3 className="text-gray-600 text-md font-semibold mb-3">
+                Number of Stops:
+              </h3>
+              <input
+                type="number"
+                value={numFlights}
+                onChange={(event) => setNumFlights(event.target.value)}
+                min={0}
+                max={2}
+                className="w-16 p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+          </div>
         </div>
 
         {/* Departure & Return */}
