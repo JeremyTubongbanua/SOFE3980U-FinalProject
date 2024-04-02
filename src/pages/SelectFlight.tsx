@@ -80,8 +80,11 @@ const SelectFlight: React.FC<Props> = () => {
             <fieldset className="flex flex-col gap-5" name="departures">
               {departData.map((flights, index) => (
                 <div>
-                  <h5>Option {index+1}</h5>
-                    <input type="checkbox" />
+                  <span>
+                    <h5>Option {index+1}</h5>
+                    <h4>Total Flight Time: {}</h4>
+                  </span>
+                  <input type="checkbox" />
                 <FlightBox
                   flights={flights}
                   key={flights[0].flightid}
