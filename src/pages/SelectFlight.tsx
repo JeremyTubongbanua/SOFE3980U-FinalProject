@@ -10,6 +10,9 @@ const SelectFlight: React.FC<Props> = () => {
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
 
+  const [selectedDepartureFlightIds, setSelectedDepartureFlightIds] = useState([]);
+  const [selectedReturnFlightIds, setSelectedReturnFlightIds] = useState([]);
+
   function convertToTime(timeNumber) {
     const hours = Math.floor(timeNumber / 100);
     const minutes = timeNumber % 100;
@@ -43,12 +46,19 @@ const SelectFlight: React.FC<Props> = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    let url = "http://jeremymark.ca:3001/generatereceipt?name=" +
+    nameValue +
+    "&email=" +
+    emailValue;
+    url += '&departureflightids=[';
+    url += selectedDepartureFlightIds.join(',');
+    url += ']';
+      url += '&returnflightids=[';
+      url += selectedReturnFlightIds.join(',');
+      url += ']';
+    console.log(url);
     fetch(
-      "http://jeremymark.ca:3001/generatereceipt?departureflightids=[1,2,3]&returnflightids=[8]&name=" +
-        nameValue +
-        "&email=" +
-        emailValue
+      url
     )
       .then((response) => response.json())
       .then((json) => {
@@ -129,20 +139,31 @@ departData.map((flights) =>  {
               Departure Flights <br /> {departData[0][0].sourceid} &rarr; {departData[departData.length-1][(departData[departData.length-1]).length-1].destinationid}
             </h3>
 
-            <fieldset className="flex flex-col gap-5" name="departures">
+            <fieldset className="flex flex-col gap-5" name="departureOption">
               {departData.map((flights, index) => {
-                  return (<div>
-                  <span>
-                    <h5>Option {index+1}</h5>
-                    <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[index]}</h4>
-                  </span>
-                  <input type="checkbox" />
-                <FlightBox
-                  flights={flights}
-                  key={flights[0].flightid}
-                  />
-                  <br />
-                </div>);
+                  return (
+                    <div>
+                      <span>
+                        <h5>Option {index+1}</h5>
+                        <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[index]}</h4>
+                      </span>
+                      <div>
+                        <input type="radio" id={'option-' + (index+1)} name="departureOption" onClick={
+                          () => {
+                            setSelectedDepartureFlightIds((prevState, props) => {
+                              return [...prevState, flights.map(flight => flight.flightid)];
+                            })
+                          }
+                        }/>
+                        <label htmlFor={'option-' + (index+1)}>Option {index+1}</label>
+                      </div>
+                      <FlightBox
+                        flights={flights}
+                        key={flights[0].flightid}
+                      />
+                      <br />
+                    </div>
+                  );
           })}
             </fieldset>
           </div>
@@ -170,7 +191,14 @@ departData.map((flights) =>  {
                           <h5>Option {index+1}</h5>
                           <h4>Total Flight Time: {returnDataAirTimes[index]}</h4>
                         </span>
-                        <input type="checkbox" />
+                        <input type="radio" id={'option-' + (index+1)} name="returns" onClick={
+                          () => {
+                            setSelectedReturnFlightIds((prevState, props) => {
+                              return [...prevState, flights.map(flight => flight.flightid)];
+                            })
+                          }
+                        }/>
+                        <label htmlFor={'option-' + (index+1)}></label>
                       <FlightBox
                         flights={flights}
                         key={flights[0].flightid}
