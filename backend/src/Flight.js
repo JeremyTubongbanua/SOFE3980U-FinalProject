@@ -141,6 +141,28 @@ flights = [
     newFlight(i++, "Boeing 747", "2020-03-13", 1215, "2020-03-13", 1500, "YYC", "YVR")
 ];
 
+// for March 30 2024 to April 9 2024, generate flights every hour between YYZ, YYC, YVR, YOO, and SFO
+for(let date = new Date('2024-03-30'); date <= new Date('2024-04-10'); date.setDate(date.getDate() + 1)) {
+    for(let h = 0; h <= 2400-500; h += 100) {
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 500, "YYZ", "YYC"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 500, "YYC", "YYZ"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 230, "YYC", "YVR"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 900, "YVR", "YYZ"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 100, "YYZ", "YVR"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 200, "YVR", "YOO"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 300, "YOO", "SFO"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 400, "YYC", "YYZ"));        
+    }
+    console.log(formatDate(date));
+}
+
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 const getFlight = (flightid) => {
     return flights.find(flight => flight.flightid === flightid);
 }
