@@ -130,13 +130,10 @@ const SelectFlight: React.FC<Props> = () => {
               });
             })
             .catch((error) => console.error(error));
-          })
-          .catch((error) => console.error(error));
-      });
-    }
-  }, []);
-
+          });
+        }
   console.log(returnData);
+      }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -176,6 +173,7 @@ const SelectFlight: React.FC<Props> = () => {
                         
                         />
                       </div>
+                      <span>
                       <h4 className="font-semibold text-gray-800 text-lg mb-2">
                         Total Flight Time:{" "}
                         {convertHour(departDataAirTimes[index])} hours
