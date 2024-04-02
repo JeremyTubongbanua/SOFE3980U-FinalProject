@@ -64,21 +64,6 @@ const Flight: React.FC<FlightProps> = ({
         Total Flight Time: <br />
         <span className=" text-gray-500">{totalFlightTime}</span>
       </p> */}
-      {withCheckBox ? (
-        <div className="box">
-          <label>
-            <input type="checkbox" value={flightID} />
-            &nbsp; Select
-          </label>
-        </div>
-      ) : (
-        <div className="box">
-          <label>
-            <input type="radio" name="flightSelection" value={flightID} />
-            &nbsp; Select
-          </label>
-        </div>
-      )}
     </div>
   );
 };
