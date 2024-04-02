@@ -43,6 +43,15 @@ const getPaths = (flights, sourceid, destinationid, numberofstops, departdate, a
                             if (!isDateInOrder(flights[j].arrivedate, lastFlight.departdate)) {
                                 continue;
                             }
+                            // also make sure that the connecting flight's arrival time is not before the departure time of the current flight TIME nNOT DATE
+                            if(flights[j].arrivedate === lastFlight.departdate && flights[j].arrivetime < lastFlight.departtime) {
+                                continue;
+                            }
+                            // make sure that the departing time of the connecting flight is chronologically after the arrival time of the current flight
+                            if(flights[j].departdate === lastFlight.arrivedate && flights[j].departtime < lastFlight.arrivetime) {
+                                continue;
+                            }
+
                             visited.add(flights[j].flightid);
                             queue.push([...path, flights[j]]);
                         }
