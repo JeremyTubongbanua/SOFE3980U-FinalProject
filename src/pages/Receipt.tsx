@@ -51,7 +51,7 @@ const Receipt = () => {
   return (
     <div className="flex flex-col items w-full p-10 gap-5">
       <div className="flex flex-col items-center gap-2">
-        <h1 className="text-5xl font-extrabold">Receipt</h1>
+        <h1 className="text-5xl font-extrabold">Ticket & Receipt</h1>
         <h2 className="text-2xl font-semibold">
           Thank you for using SuperCoolFlights!
         </h2>
