@@ -155,6 +155,26 @@ for(let date = new Date('2024-03-30'); date <= new Date('2024-04-10'); date.setD
         flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 400, "YYC", "YYZ"));        
     }
     console.log(formatDate(date));
+
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1210, formatDate(date), 2349, "YYZ", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1215, formatDate(date), 2300, "YYZ", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1330, formatDate(date), 2349, "YYZ", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1500, formatDate(date), 2300, "YYZ", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1500, formatDate(date), 2300, "YYC", "YYZ"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1545, formatDate(date), 2000, "YYC", "YYZ"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1215, formatDate(date), 1915, "YYC", "YYZ"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 300, formatDate(date), 800, "YYC", "YYZ"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 300, formatDate(date), 800, "YYC", "YVR"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 400, formatDate(date), 900, "YYC", "YVR"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 415, formatDate(date), 930, "YYC", "YVR"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 445, formatDate(date), 1030, "YYC", "YVR"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 435, formatDate(date), 1000, "YYC", "YVR"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 435, formatDate(date), 1000, "YVR", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 900, formatDate(date), 1500, "YVR", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 835, formatDate(date), 1535, "YVR", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 200, formatDate(date), 1030, "YVR", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 1200, formatDate(date), 1800, "YVR", "YYC"));
+    flights.push(newFlight(i++, "AC 131", formatDate(date), 900, formatDate(date), 1530, "YVR", "YYZ"));
 }
 
 function formatDate(date) {
