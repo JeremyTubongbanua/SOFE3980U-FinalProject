@@ -17,6 +17,9 @@ function LandingPage() {
   const [adultCount, setAdultCount] = useState(0);
   const [childCount, setChildCount] = useState(0);
 
+  const [selectedFrom, setSelectedFrom] = useState(fromOptions[0]);
+  const [selectedTo, setSelectedTo] = useState(toOptions[0]);
+
   const increaseAdultCount = () => {
     setAdultCount((count) => count + 1);
   };
@@ -42,6 +45,47 @@ function LandingPage() {
     setChildCount(0);
   };
 
+  const onViewFlightsPress = () => {
+    // alert('sourceid: ' + selectedFrom + ' destination: ' + selectedTo + ' start date: ' + startDate + ' end date: ' + endDate + ' round trip: ' + isRoundTrip + ' number of flights: ' + numFlights);
+
+    const startMonth = startDate.getMonth() + 1;
+    const startDay = startDate.getDate();
+    const startYear = startDate.getFullYear();
+    const kStartMonth = startYear + '-' + startMonth + '-' + startDay;
+
+    let url = 'http://jeremymark.ca:3001/generateoptions?source=' + selectedFrom + '&destination=' + selectedTo + '&departuredate=' + kStartMonth + '&numberofstops=' + numFlights;
+
+    if(endDate != null) {
+      const endMonth = endDate.getMonth() + 1;
+      const endDay = endDate.getDate();
+      const endYear = endDate.getFullYear();
+      const kEndMonth = endYear + '-' + endMonth + '-' + endDay;
+      url = url + '&returndate=' + kEndMonth;
+    }
+
+    // alert(url);
+    console.log(url);
+
+    fetch(url)
+    .then(response => response.json())
+    .then(json => {
+      // alert(json);
+      console.log(json);
+
+      if(json.status == 'success') {
+        if(json.departPaths.length == 0 && json.returnPaths.length == 0) {
+          alert('No flights found for the given criteria');
+        } else {
+          // navigate('/selectflights', {state: {departPaths: json.departPaths, returnPaths: json.returnPaths}});
+        }
+      }
+    })
+    .catch(error => {
+      alert(error);
+    });
+
+  }
+
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -62,7 +106,7 @@ function LandingPage() {
               </p>
               <Dropdown
                 options={[...fromOptions]}
-                onSelect={(selectedOption) => console.log(selectedOption)}
+                onSelect={(selectedOption) => setSelectedFrom(selectedOption)}
               />
             </div>
             <div>
@@ -71,7 +115,7 @@ function LandingPage() {
               </p>
               <Dropdown
                 options={[...toOptions]}
-                onSelect={(selectedOption) => console.log(selectedOption)}
+                onSelect={(selectedOption) => setSelectedTo(selectedOption)}
               />
             </div>
           </div>
@@ -169,7 +213,7 @@ function LandingPage() {
 
           <button
             type="button"
-            onClick={hasFormSubmit}
+            onClick={() => onViewFlightsPress()}
             className="flex flex-col justify-center items-center p-3 w-full self-stretch border rounded-xl bg-black text-white text-xl font-semibold mt-8 hover:bg-gray-600 duration-200"
           >
             View Flights
