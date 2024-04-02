@@ -159,7 +159,10 @@ const SelectFlight: React.FC<Props> = () => {
               }
             </h3>
 
-            <fieldset className="flex flex-col gap-5" name="departureOption">
+            <fieldset
+              className="flex flex-col gap-5 h-[500px] overflow-scroll scroll-smooth p-10 border-2 border-black rounded-xl border-dotted"
+              name="departureOption"
+            >
               {departData.map((flights, index) => {
                 let flightids = flights
                   .map((flight) => flight.flightid)
@@ -214,7 +217,10 @@ const SelectFlight: React.FC<Props> = () => {
                   Return Flights <br /> B &rarr; A
                 </h3>
 
-                <fieldset className="flex flex-col gap-5" name="returns">
+                <fieldset
+                  className="flex flex-col gap-5 h-[500px] overflow-scroll scroll-smooth p-10 border-2 border-black rounded-xl border-dotted "
+                  name="returns"
+                >
                   {returnData.map((flights, index) => {
                     let flightids = flights
                       .map((flight) => flight.flightid)
@@ -268,7 +274,7 @@ const SelectFlight: React.FC<Props> = () => {
         {/* Checkout: */}
         <div>
           <div className=" flex flex-col p-5 items-center gap-5 ">
-            <h3 className=" font-semibold text-black text-2xl">Checkout</h3>
+            <h3 className=" font-semibold text-black text-3xl">Checkout</h3>
             <div className="flex flex-col">
               <label
                 className="block mb-2 text-sm font-medium text-gray-900"
@@ -277,7 +283,7 @@ const SelectFlight: React.FC<Props> = () => {
                 Full Name:
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 type="text"
                 id="fullname"
                 required
@@ -293,7 +299,7 @@ const SelectFlight: React.FC<Props> = () => {
                 Email:
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 "
                 type="email"
                 id="email"
                 required
@@ -304,7 +310,7 @@ const SelectFlight: React.FC<Props> = () => {
 
             <button
               type="submit"
-              className="bg-black text-white text-lg font-semibold border rounded-xl p-2 w-[200px] hover:bg-gray-600 duration-200"
+              className="bg-black text-white text-lg font-semibold border rounded-xl p-3 w-full hover:bg-gray-600 duration-200"
             >
               Checkout
             </button>
