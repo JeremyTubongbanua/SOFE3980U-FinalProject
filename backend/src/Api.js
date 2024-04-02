@@ -17,6 +17,23 @@ if (process.argv.length > 2) {
     host = process.argv[2];
 }
 
+app.get('/getflight', (req, res) => {
+    const query = req.query;
+    const flightid = query.flightid;
+    // check if all parameters are present
+    if (!flightid) {
+        res.status(400).send('Missing parameters: flightid: ' + flightid);
+        return;
+    }
+
+    const flight = getFlight(parseInt(flightid));
+    if (flight) {
+        res.status(200).send({ status: 'success', data: flight });
+    } else {
+        res.status(404).send({ status: 'error', data: 'Flight not found' });
+    }
+});
+
 app.get('/generateoptions', (req, res) => {
     const query = req.query;
     const source = query.source; // e.g YYZ

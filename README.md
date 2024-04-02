@@ -17,7 +17,50 @@ Final Project for SOFE3980U - Software Quality
 
 # api-specification
 
-## generate flights
+## get flight
+
+GET /getflight
+
+### Request
+
+| Name | Description | Avaialble Values | 
+| ---- | ----------- | ----------------- |
+| flightid | The id of the flight | e.g. 1 (int) |
+
+Example
+
+```json
+{
+  'flightid': 1
+}
+```
+
+### Response
+
+Returns a flight object
+
+Example
+
+```json
+{
+  "status": "success",
+  "data": {
+      "flightid": 1,
+      "planename": "Boeing 747",
+      "departdate": "2020-01-01",
+      "departtime": 500,
+      "arrivedate": "2020-01-01",
+      "arrivetime": 1400,
+      "sourceid": "YYZ",
+      "destinationid": "YYC"
+  }
+}
+```
+
+
+## generate options
+
+GET /generateoptions
 
 ### Request
 
@@ -89,6 +132,8 @@ Example
 ```
 
 ## generate receipt
+
+GET /generatereceipt
 
 ### Request
 
