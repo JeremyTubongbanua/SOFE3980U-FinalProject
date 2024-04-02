@@ -51,6 +51,27 @@ Example
 }
 ```
 
+## calculate air time
+
+GET /calculateairtime
+
+### Request
+
+| Name | Description | Available Values |
+| ---- | ----------- | ----------------- |
+| flightids | The ids of the flight | e.g. [1,2] (array of int) |
+
+### Response
+
+Example
+
+```json
+{
+    "status": "success",
+    "data": 1400
+}
+```
+
 
 ## generate options
 
