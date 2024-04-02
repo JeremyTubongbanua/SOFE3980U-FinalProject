@@ -10,8 +10,26 @@ const SelectFlight: React.FC<Props> = () => {
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
 
-  const [selectedDepartureFlightIds, setSelectedDepartureFlightIds] = useState([]);
+  const [selectedDepartureFlightIds, setSelectedDepartureFlightIds] = useState(
+    []
+  );
   const [selectedReturnFlightIds, setSelectedReturnFlightIds] = useState([]);
+
+  function convertHour(minutes) {
+    if (minutes < 0) {
+      return -1; // Or throw an error if you prefer
+    }
+
+    // Calculate the number of hours
+    const hours = Math.floor(minutes / 100);
+    const decimal = (minutes % 100) / 60;
+
+    // Round the decimal to 2 decimal places
+    const roundedDecimal = Math.round(decimal * 100) / 100;
+
+    // Return the number of hours with rounded decimal
+    return hours + roundedDecimal;
+  }
 
   function convertToTime(timeNumber) {
     const hours = Math.floor(timeNumber / 100);
@@ -46,20 +64,19 @@ const SelectFlight: React.FC<Props> = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let url = "http://jeremymark.ca:3001/generatereceipt?name=" +
-    nameValue +
-    "&email=" +
-    emailValue;
-    url += '&departureflightids=[';
-    url += selectedDepartureFlightIds.join(',');
-    url += ']';
-      url += '&returnflightids=[';
-      url += selectedReturnFlightIds.join(',');
-      url += ']';
+    let url =
+      "http://jeremymark.ca:3001/generatereceipt?name=" +
+      nameValue +
+      "&email=" +
+      emailValue;
+    url += "&departureflightids=[";
+    url += selectedDepartureFlightIds.join(",");
+    url += "]";
+    url += "&returnflightids=[";
+    url += selectedReturnFlightIds.join(",");
+    url += "]";
     console.log(url);
-    fetch(
-      url
-    )
+    fetch(url)
       .then((response) => response.json())
       .then((json) => {
         // Redirect to the new page with the fetched data
@@ -69,19 +86,19 @@ const SelectFlight: React.FC<Props> = () => {
       .catch((error) => console.error(error));
   };
 
-  const [departDataAirTimes, setDepartDataAirTimes] = useState([]);
-  const [returnDataAirTimes, setReturnDataAirTimes] = useState([]);
-  
+  const [departDataAirTimes, setDepartDataAirTimes] = useState({});
+  const [returnDataAirTimes, setReturnDataAirTimes] = useState({});
+
   const departData = location.state?.departPaths;
   const returnData = location.state?.returnPaths;
-  
+
   useEffect(() => {
     const departData = location.state?.departPaths;
-departData.map((flights) =>  {
-      let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
-      let flightids = flights.map(flight => flight.flightid).join(',');
+    departData.map((flights) => {
+      let url = "http://jeremymark.ca:3001/calculateairtime?flightids=[";
+      let flightids = flights.map((flight) => flight.flightid).join(",");
       url += flightids;
-      url += ']';
+      url += "]";
       console.log(url);
       fetch(url)
         .then((response) => response.json())
@@ -89,42 +106,40 @@ departData.map((flights) =>  {
           console.log(json);
           const totalFlightTime = json.data;
           setDepartDataAirTimes((prevState, props) => {
-            return [...prevState, totalFlightTime];
-          
+            return { ...prevState, [flightids]: totalFlightTime };
           });
+          console.log(
+            "Generated time for flightids" + totalFlightTime + " " + flightids
+          );
         })
         .catch((error) => console.error(error));
-      })
-      console.log('departdads: ' + departDataAirTimes);
+    });
   }, []);
 
   useEffect(() => {
     const returnData = location.state?.returnPaths;
 
-      if(returnData.length !== 0) {
-        returnData.map((flights) =>  {
-          let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
-          let flightids = flights.map(flight => flight.flightid).join(',');
-          url += flightids;
-          url += ']';
-          console.log(url);
-          fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-              console.log(json);
-              const totalFlightTime = json.data;
-              setReturnDataAirTimes((prevState, props) => {
-                return [...prevState, totalFlightTime];
-              });
-            })
-            .catch((error) => console.error(error));
+    if (returnData.length !== 0) {
+      returnData.map((flights) => {
+        let url = "http://jeremymark.ca:3001/calculateairtime?flightids=[";
+        let flightids = flights.map((flight) => flight.flightid).join(",");
+        url += flightids;
+        url += "]";
+        console.log(url);
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            const totalFlightTime = json.data;
+            setReturnDataAirTimes((prevState, props) => {
+              return { ...prevState, [flightids]: totalFlightTime };
+            });
           })
-      }
+          .catch((error) => console.error(error));
+      });
+    }
+    console.log(returnData);
   }, []);
-  
-  
-
-  console.log(returnData);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -136,35 +151,54 @@ departData.map((flights) =>  {
 
           <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
             <h3 className="text-black text-2xl font-semibold leading-8">
-              Departure Flights <br /> {departData[0][0].sourceid} &rarr; {departData[departData.length-1][(departData[departData.length-1]).length-1].destinationid}
+              Departure Flights <br /> {departData[0][0].sourceid} &rarr;{" "}
+              {
+                departData[departData.length - 1][
+                  departData[departData.length - 1].length - 1
+                ].destinationid
+              }
             </h3>
 
-            <fieldset className="flex flex-col gap-5" name="departureOption">
+            <fieldset
+              className="flex flex-col gap-5 h-[500px] overflow-scroll scroll-smooth p-10 border-2 border-black rounded-xl border-dotted"
+              name="departureOption"
+            >
               {departData.map((flights, index) => {
-                  return (
-                    <div>
-                      <span>
-                        <h5>Option {index+1}</h5>
-                        <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[index]}</h4>
-                      </span>
-                      <div>
-                        <input type="radio" id={'option-' + (index+1)} name="departureOption" onClick={
-                          () => {
-                            setSelectedDepartureFlightIds((prevState, props) => {
-                              return [...prevState, flights.map(flight => flight.flightid)];
-                            })
-                          }
-                        }/>
-                        <label htmlFor={'option-' + (index+1)}>Option {index+1}</label>
-                      </div>
-                      <FlightBox
-                        flights={flights}
-                        key={flights[0].flightid}
+                let flightids = flights
+                  .map((flight) => flight.flightid)
+                  .join(",");
+                return (
+                  <div>
+                    <div className="flex gap-4 items-center">
+                      <h3 className="font-semibold text-gray-500 text-xl">
+                        Option {index + 1}
+                      </h3>
+
+                      <input
+                        className="h-[20px] w-[20px]"
+                        type="radio"
+                        id={"option-" + (index + 1)}
+                        name="departureOption"
+                        onClick={() => {
+                          setSelectedDepartureFlightIds((prevState, props) => {
+                            return [flights.map((flight) => flight.flightid)];
+                          });
+                        }}
                       />
-                      <br />
                     </div>
-                  );
-          })}
+                    <span>
+                      <h4 className="font-semibold text-gray-800 text-lg mb-2">
+                        Total Flight Time:{" "}
+                        {convertHour(departDataAirTimes[flightids])} hours
+                      </h4>
+                    </span>
+
+                    <label htmlFor={"option-" + (index + 1)}></label>
+                    <FlightBox flights={flights} key={flights[0].flightid} />
+                    <br />
+                  </div>
+                );
+              })}
             </fieldset>
           </div>
         </div>
@@ -180,28 +214,55 @@ departData.map((flights) =>  {
               </h1>
               <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
                 <h3 className="text-black text-2xl font-semibold leading-8">
-                  Return Flights <br /> B &rarr; A
+                  Return Flights <br /> {returnData[0][0].sourceid} &rarr;{" "}
+                  {
+                    returnData[returnData.length - 1][
+                      returnData[returnData.length - 1].length - 1
+                    ].destinationid
+                  }
                 </h3>
 
-                <fieldset className="flex flex-col gap-5" name="returns">
+                <fieldset
+                  className="flex flex-col gap-5 h-[500px] overflow-scroll scroll-smooth p-10 border-2 border-black rounded-xl border-dotted "
+                  name="returns"
+                >
                   {returnData.map((flights, index) => {
+                    let flightids = flights
+                      .map((flight) => flight.flightid)
+                      .join(",");
                     return (
                       <div>
                         <span>
-                          <h5>Option {index+1}</h5>
-                          <h4>Total Flight Time: {returnDataAirTimes[index]}</h4>
+                          <div className="flex gap-4 items-center">
+                            <h3 className="font-semibold text-gray-500 text-xl">
+                              Option {index + 1}
+                            </h3>
+                            <input
+                              className="h-[20px] w-[20px]"
+                              type="radio"
+                              id={"option-" + (index + 1)}
+                              name="returns"
+                              onClick={() => {
+                                setSelectedReturnFlightIds(
+                                  (prevState, props) => {
+                                    return [
+                                      flights.map((flight) => flight.flightid),
+                                    ];
+                                  }
+                                );
+                              }}
+                            />
+                          </div>
+                          <h4 className="font-semibold text-gray-800 text-lg mb-2">
+                            Total Flight Time:{" "}
+                            {convertHour(returnDataAirTimes[flightids])} hours
+                          </h4>
                         </span>
-                        <input type="radio" id={'option-' + (index+1)} name="returns" onClick={
-                          () => {
-                            setSelectedReturnFlightIds((prevState, props) => {
-                              return [...prevState, flights.map(flight => flight.flightid)];
-                            })
-                          }
-                        }/>
-                        <label htmlFor={'option-' + (index+1)}></label>
-                      <FlightBox
-                        flights={flights}
-                        key={flights[0].flightid}
+
+                        <label htmlFor={"option-" + (index + 1)}></label>
+                        <FlightBox
+                          flights={flights}
+                          key={flights[0].flightid}
                         />
                         <br />
                       </div>
@@ -218,7 +279,7 @@ departData.map((flights) =>  {
         {/* Checkout: */}
         <div>
           <div className=" flex flex-col p-5 items-center gap-5 ">
-            <h3 className=" font-semibold text-black text-2xl">Checkout</h3>
+            <h3 className=" font-semibold text-black text-3xl">Checkout</h3>
             <div className="flex flex-col">
               <label
                 className="block mb-2 text-sm font-medium text-gray-900"
@@ -227,7 +288,7 @@ departData.map((flights) =>  {
                 Full Name:
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3"
                 type="text"
                 id="fullname"
                 required
@@ -243,7 +304,7 @@ departData.map((flights) =>  {
                 Email:
               </label>
               <input
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 "
                 type="email"
                 id="email"
                 required
@@ -254,7 +315,7 @@ departData.map((flights) =>  {
 
             <button
               type="submit"
-              className="bg-black text-white text-lg font-semibold border rounded-xl p-2 w-[200px] hover:bg-gray-600 duration-200"
+              className="bg-black text-white text-lg font-semibold border rounded-xl p-3 w-full hover:bg-gray-600 duration-200"
             >
               Checkout
             </button>

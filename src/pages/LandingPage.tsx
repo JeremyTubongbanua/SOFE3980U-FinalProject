@@ -51,7 +51,12 @@ function LandingPage() {
     // alert('sourceid: ' + selectedFrom + ' destination: ' + selectedTo + ' start date: ' + startDate + ' end date: ' + endDate + ' round trip: ' + isRoundTrip + ' number of flights: ' + numFlights);
 
     // check that selectedFrom and selectedTo are not null
-    if (selectedFrom == null || selectedTo == null || selectedFrom == "" || selectedTo == "") {
+    if (
+      selectedFrom == null ||
+      selectedTo == null ||
+      selectedFrom == "" ||
+      selectedTo == ""
+    ) {
       alert("Please select a source and destination");
       return;
     }
@@ -77,7 +82,12 @@ function LandingPage() {
     const startMonth = startDate.getMonth() + 1;
     const startDay = startDate.getDate();
     const startYear = startDate.getFullYear();
-    const kStartMonth = startYear + "-" + startMonth.toString().padStart(2, '0') + "-" + startDay.toString().padStart(2, '0');
+    const kStartMonth =
+      startYear +
+      "-" +
+      startMonth.toString().padStart(2, "0") +
+      "-" +
+      startDay.toString().padStart(2, "0");
 
     let url =
       "http://jeremymark.ca:3001/generateoptions?source=" +
@@ -93,7 +103,12 @@ function LandingPage() {
       const endMonth = endDate.getMonth() + 1;
       const endDay = endDate.getDate();
       const endYear = endDate.getFullYear();
-      const kEndMonth = endYear + "-" + endMonth.toString().padStart(2, '0') + "-" + endDay.toString().padStart(2, '0');
+      const kEndMonth =
+        endYear +
+        "-" +
+        endMonth.toString().padStart(2, "0") +
+        "-" +
+        endDay.toString().padStart(2, "0");
       url = url + "&returndate=" + kEndMonth;
     }
 
@@ -118,7 +133,7 @@ function LandingPage() {
             if (json.data.returnPaths == null) {
               json.data.returnPaths = [];
             }
-            alert('We found some flights for you!! 🤑🤑🤑🤑. Click OK');
+            alert("We found some flights for you!! 🤑🤑🤑🤑. Click OK");
             navigate("/select", {
               state: {
                 departPaths: json.data.departPaths,
@@ -215,13 +230,13 @@ function LandingPage() {
         </div>
 
         {/* Departure & Return */}
-        <div>
+        <div className="w-full">
           <div className="w-full border-2 border-black rounded-xl p-5 flex flex-col gap-5 items-start">
             <h2 className="text-black text-2xl font-semibold">
               Select your date(s):
             </h2>
 
-            <div className="flex items-start just gap-10">
+            <div className="flex items-start just gap-20">
               <div>
                 <h3 className="text-gray-600 text-md font-semibold">
                   Departure Date
