@@ -8,18 +8,6 @@ const SelectFlight: React.FC<Props> = () => {
   const navigate = useNavigate();
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
-  const [checkedFlights, setCheckedFlights] = useState([]);
-
-  const handleCheckboxChange = (flightID: number) => {
-    const newCheckedFlights = [...checkedFlights]; // Create a copy to avoid mutation
-    if (checkedFlights.includes(flightID)) {
-      const index = newCheckedFlights.indexOf(flightID);
-      newCheckedFlights.splice(index, 1); // Remove from checked if already checked
-    } else {
-      newCheckedFlights.push(flightID); // Add to checked if not checked
-    }
-    setCheckedFlights(newCheckedFlights);
-  };
 
   function convertToTime(timeNumber) {
     const hours = Math.floor(timeNumber / 100);
