@@ -10,8 +10,22 @@ const SelectFlight: React.FC<Props> = () => {
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
 
-  const [selectedDepartureFlightIds, setSelectedDepartureFlightIds] = useState([]);
+  const [selectedDepartureFlightIds, setSelectedDepartureFlightIds] = useState(
+    []
+  );
   const [selectedReturnFlightIds, setSelectedReturnFlightIds] = useState([]);
+
+  function convertHour(minutes) {
+    if (minutes < 0) {
+      return -1; // Or throw an error if you prefer
+    }
+
+    // Calculate the number of hours
+    const hours = Math.floor(minutes / 100);
+
+    // Return the number of hours
+    return hours;
+  }
 
   function convertToTime(timeNumber) {
     const hours = Math.floor(timeNumber / 100);
@@ -46,20 +60,19 @@ const SelectFlight: React.FC<Props> = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let url = "http://jeremymark.ca:3001/generatereceipt?name=" +
-    nameValue +
-    "&email=" +
-    emailValue;
-    url += '&departureflightids=[';
-    url += selectedDepartureFlightIds.join(',');
-    url += ']';
-      url += '&returnflightids=[';
-      url += selectedReturnFlightIds.join(',');
-      url += ']';
+    let url =
+      "http://jeremymark.ca:3001/generatereceipt?name=" +
+      nameValue +
+      "&email=" +
+      emailValue;
+    url += "&departureflightids=[";
+    url += selectedDepartureFlightIds.join(",");
+    url += "]";
+    url += "&returnflightids=[";
+    url += selectedReturnFlightIds.join(",");
+    url += "]";
     console.log(url);
-    fetch(
-      url
-    )
+    fetch(url)
       .then((response) => response.json())
       .then((json) => {
         // Redirect to the new page with the fetched data
@@ -71,17 +84,17 @@ const SelectFlight: React.FC<Props> = () => {
 
   const [departDataAirTimes, setDepartDataAirTimes] = useState([]);
   const [returnDataAirTimes, setReturnDataAirTimes] = useState([]);
-  
+
   const departData = location.state?.departPaths;
   const returnData = location.state?.returnPaths;
-  
+
   useEffect(() => {
     const departData = location.state?.departPaths;
-departData.map((flights) =>  {
-      let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
-      let flightids = flights.map(flight => flight.flightid).join(',');
+    departData.map((flights) => {
+      let url = "http://jeremymark.ca:3001/calculateairtime?flightids=[";
+      let flightids = flights.map((flight) => flight.flightid).join(",");
       url += flightids;
-      url += ']';
+      url += "]";
       console.log(url);
       fetch(url)
         .then((response) => response.json())
@@ -90,39 +103,36 @@ departData.map((flights) =>  {
           const totalFlightTime = json.data;
           setDepartDataAirTimes((prevState, props) => {
             return [...prevState, totalFlightTime];
-          
           });
         })
         .catch((error) => console.error(error));
-      })
-      console.log('departdads: ' + departDataAirTimes);
+    });
+    console.log("departdads: " + departDataAirTimes);
   }, []);
 
   useEffect(() => {
     const returnData = location.state?.returnPaths;
 
-      if(returnData.length !== 0) {
-        returnData.map((flights) =>  {
-          let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
-          let flightids = flights.map(flight => flight.flightid).join(',');
-          url += flightids;
-          url += ']';
-          console.log(url);
-          fetch(url)
-            .then((response) => response.json())
-            .then((json) => {
-              console.log(json);
-              const totalFlightTime = json.data;
-              setReturnDataAirTimes((prevState, props) => {
-                return [...prevState, totalFlightTime];
-              });
-            })
-            .catch((error) => console.error(error));
+    if (returnData.length !== 0) {
+      returnData.map((flights) => {
+        let url = "http://jeremymark.ca:3001/calculateairtime?flightids=[";
+        let flightids = flights.map((flight) => flight.flightid).join(",");
+        url += flightids;
+        url += "]";
+        console.log(url);
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            console.log(json);
+            const totalFlightTime = json.data;
+            setReturnDataAirTimes((prevState, props) => {
+              return [...prevState, totalFlightTime];
+            });
           })
-      }
+          .catch((error) => console.error(error));
+      });
+    }
   }, []);
-  
-  
 
   console.log(returnData);
 
@@ -136,37 +146,51 @@ departData.map((flights) =>  {
 
           <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
             <h3 className="text-black text-2xl font-semibold leading-8">
-              Departure Flights <br /> {departData[0][0].sourceid} &rarr; {departData[departData.length-1][(departData[departData.length-1]).length-1].destinationid}
+              Departure Flights <br /> {departData[0][0].sourceid} &rarr;{" "}
+              {
+                departData[departData.length - 1][
+                  departData[departData.length - 1].length - 1
+                ].destinationid
+              }
             </h3>
 
             <fieldset className="flex flex-col gap-5" name="departureOption">
               {departData.map((flights, index) => {
-                  return (
-                    <div>
-                      <span>
-                        <h5>Option {index+1}</h5>
-                        <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[index]}</h4>
-                      </span>
-                      <div>
-                        <input type="radio" id={'option-' + (index+1)} name="departureOption" onClick={
-                          () => {
-                            setSelectedDepartureFlightIds((prevState, props) => {
-                              return [flights.map(flight => flight.flightid)];
-                            })
-                          }
-                        }
-                        
+                return (
+                  <div>
+                    <span>
+                      <div className="flex gap-4 items-center">
+                        <h3 className="font-semibold text-gray-500 text-xl">
+                          Option {index + 1}
+                        </h3>
+                        <input
+                          className="h-[20px] w-[20px]"
+                          type="radio"
+                          id={"option-" + (index + 1)}
+                          name="returns"
+                          onClick={() => {
+                            setSelectedDepartureFlightIds(
+                              (prevState, props) => {
+                                return [
+                                  flights.map((flight) => flight.flightid),
+                                ];
+                              }
+                            );
+                          }}
                         />
-                        <label htmlFor={'option-' + (index+1)}>Option {index+1}</label>
                       </div>
-                      <FlightBox
-                        flights={flights}
-                        key={flights[0].flightid}
-                      />
-                      <br />
-                    </div>
-                  );
-          })}
+                      <h4 className="font-semibold text-gray-800 text-lg mb-2">
+                        Total Flight Time:{" "}
+                        {convertHour(departDataAirTimes[index])} hours
+                      </h4>
+                    </span>
+
+                    <label htmlFor={"option-" + (index + 1)}></label>
+                    <FlightBox flights={flights} key={flights[0].flightid} />
+                    <br />
+                  </div>
+                );
+              })}
             </fieldset>
           </div>
         </div>
@@ -190,20 +214,36 @@ departData.map((flights) =>  {
                     return (
                       <div>
                         <span>
-                          <h5>Option {index+1}</h5>
-                          <h4>Total Flight Time: {returnDataAirTimes[index]}</h4>
+                          <div className="flex gap-4 items-center">
+                            <h3 className="font-semibold text-gray-500 text-xl">
+                              Option {index + 1}
+                            </h3>
+                            <input
+                              className="h-[20px] w-[20px]"
+                              type="radio"
+                              id={"option-" + (index + 1)}
+                              name="returns"
+                              onClick={() => {
+                                setSelectedReturnFlightIds(
+                                  (prevState, props) => {
+                                    return [
+                                      flights.map((flight) => flight.flightid),
+                                    ];
+                                  }
+                                );
+                              }}
+                            />
+                          </div>
+                          <h4 className="font-semibold text-gray-800 text-lg mb-2">
+                            Total Flight Time:{" "}
+                            {convertHour(returnDataAirTimes[index])} hours
+                          </h4>
                         </span>
-                        <input type="radio" id={'option-' + (index+1)} name="returns" onClick={
-                          () => {
-                            setSelectedReturnFlightIds((prevState, props) => {
-                              return [flights.map(flight => flight.flightid)];
-                            })
-                          }
-                        }/>
-                        <label htmlFor={'option-' + (index+1)}></label>
-                      <FlightBox
-                        flights={flights}
-                        key={flights[0].flightid}
+
+                        <label htmlFor={"option-" + (index + 1)}></label>
+                        <FlightBox
+                          flights={flights}
+                          key={flights[0].flightid}
                         />
                         <br />
                       </div>
