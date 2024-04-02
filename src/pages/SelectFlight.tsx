@@ -142,15 +142,12 @@ const SelectFlight: React.FC<Props> = () => {
 
             <button
               type="submit"
-              className="bg-black text-white text-lg font-semibold border rounded-xl p-2 w-[200px] "
+              className="bg-black text-white text-lg font-semibold border rounded-xl p-2 w-[200px] hover:bg-gray-600 duration-200"
             >
-              {" "}
               Checkout
             </button>
           </div>
         </div>
-
-        {/*  */}
       </div>
     </form>
   );
