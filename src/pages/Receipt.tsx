@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import ReceiptFlight from "../components/ReceiptFlight";
 
@@ -8,10 +8,14 @@ const Receipt = () => {
   console.log(data);
 
   const [is24HourFormat, setIs24HourFormat] = useState(false);
+  const [transactionId, setTransactionId] = useState("");
 
-  const handleChange = (event) => {
-    setIs24HourFormat(!is24HourFormat);
-  };
+  useEffect(() => {
+    if (!transactionId) {
+      // Check if ID is not already generated
+      setTransactionId(generateTransactionId());
+    }
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   function generateTransactionId(length = 8) {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -27,6 +31,10 @@ const Receipt = () => {
 
     return transactionId;
   }
+
+  const handleChange = (event) => {
+    setIs24HourFormat(!is24HourFormat);
+  };
 
   function convertHour(minutes) {
     if (minutes < 0) {
@@ -56,7 +64,7 @@ const Receipt = () => {
         </div>
 
         <h3 className="text-2xl font-semibold text-gray-600">
-          Transcation ID: {generateTransactionId()}
+          Transcation ID: {transactionId}
         </h3>
 
         <hr className="text-gray-600 w-[500px] h-2" />
