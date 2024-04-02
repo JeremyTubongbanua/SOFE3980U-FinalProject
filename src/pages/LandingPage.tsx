@@ -83,13 +83,18 @@ function LandingPage() {
         console.log(json);
 
         if (json.status == "success") {
-          if (json.departPaths.length == 0 && json.returnPaths.length == 0) {
-            alert("No flights found for the given criteria");
+          if (json.data.departPaths.length == 0) {
+            alert("No depart flights found for the given criteria");
+          } else if(json.data.returnPaths != null && json.data.returnPaths.length == 0) {
+            alert("No return flights found for the given criteria");
           } else {
+            if(json.data.returnPaths == null) {
+              json.data.returnPaths = [];
+            }
             navigate("/select", {
               state: {
-                departPaths: json.departPaths,
-                returnPaths: json.returnPaths,
+                departPaths: json.data.departPaths,
+                returnPaths: json.data.returnPaths,
               },
             });
           }
