@@ -8,6 +8,10 @@ interface FlightProps {
   arrivalTime: string;
   totalFlightTime: string;
   withCheckBox: boolean;
+  sourceID: string;
+  destinationID: string;
+  departDate: string; // Add departDate property
+  arriveDate: string; // Add arriveDate property
 }
 
 const Flight: React.FC<FlightProps> = ({
@@ -17,6 +21,10 @@ const Flight: React.FC<FlightProps> = ({
   arrivalTime,
   totalFlightTime,
   withCheckBox,
+  sourceID,
+  destinationID,
+  departDate,
+  arriveDate,
 }) => {
   return (
     <div className="flightBox flex items-start border rounded-xl border-black text-black text-lg font-semibold leading-7">
@@ -36,11 +44,26 @@ const Flight: React.FC<FlightProps> = ({
         Arrival Time: <br />
         <span className=" text-gray-500">{arrivalTime}</span>
       </p>
+      <p className="box self-stretch">
+        Source ID: <br />
+        <span className=" text-gray-500">{sourceID}</span>
+      </p>
+      <p className="box self-stretch">
+        Destination ID: <br />
+        <span className=" text-gray-500">{destinationID}</span>
+      </p>
+      <p className="box self-stretch">
+        Departure Date: <br /> {/* Add Departure Date */}
+        <span className=" text-gray-500">{departDate}</span>
+      </p>
+      <p className="box self-stretch">
+        Arrival Date: <br /> {/* Add Arrival Date */}
+        <span className=" text-gray-500">{arriveDate}</span>
+      </p>
       {/* <p className="box self-stretch">
         Total Flight Time: <br />
         <span className=" text-gray-500">{totalFlightTime}</span>
       </p> */}
-
       {withCheckBox ? (
         <div className="box">
           <label>
