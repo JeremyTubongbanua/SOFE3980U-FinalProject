@@ -214,7 +214,12 @@ const SelectFlight: React.FC<Props> = () => {
               </h1>
               <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
                 <h3 className="text-black text-2xl font-semibold leading-8">
-                  Return Flights <br /> B &rarr; A
+                  Return Flights <br /> {returnData[0][0].sourceid} &rarr;{" "}
+                  {
+                    returnData[returnData.length - 1][
+                      returnData[returnData.length - 1].length - 1
+                    ].destinationid
+                  }
                 </h3>
 
                 <fieldset
