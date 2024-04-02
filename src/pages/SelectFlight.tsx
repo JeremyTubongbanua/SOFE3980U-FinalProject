@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Flight from "../components/flight";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import FlightBox from "../components/FlightBox";
 
 const SelectFlight: React.FC<Props> = () => {
   const location = useLocation();
@@ -73,18 +74,20 @@ const SelectFlight: React.FC<Props> = () => {
 
           <div className="mt-5 flex flex-col justify-center items-start p-5 gap-10">
             <h3 className="text-black text-2xl font-semibold leading-8">
-              Departure Flights <br /> A &rarr; B
+              Departure Flights <br /> {departData[0][0].sourceid} &rarr; {departData[departData.length-1][(departData[departData.length-1]).length-1].destinationid}
             </h3>
 
             <fieldset className="flex flex-col gap-5" name="departures">
-              {departData.map((flight) => (
-                <Flight
-                  flightID={flight[0].flightid}
-                  planeName={flight[0].planename}
-                  departureTime={convertToTime(flight[0].departtime)}
-                  arrivalTime={convertToTime(flight[0].arrivetime)}
-                  withCheckBox={true}
-                />
+              {departData.map((flights, index) => (
+                <div>
+                  <h5>Option {index+1}</h5>
+                    <input type="checkbox" />
+                <FlightBox
+                  flights={flights}
+                  key={flights[0].flightid}
+                  />
+                  <br />
+                </div>
               ))}
             </fieldset>
           </div>

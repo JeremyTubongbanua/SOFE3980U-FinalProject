@@ -50,6 +50,30 @@ function LandingPage() {
   const onViewFlightsPress = () => {
     // alert('sourceid: ' + selectedFrom + ' destination: ' + selectedTo + ' start date: ' + startDate + ' end date: ' + endDate + ' round trip: ' + isRoundTrip + ' number of flights: ' + numFlights);
 
+    // check that selectedFrom and selectedTo are not null
+    if (selectedFrom == null || selectedTo == null || selectedFrom == "" || selectedTo == "") {
+      alert("Please select a source and destination");
+      return;
+    }
+
+    // check that startDate is not null
+    if (startDate == null) {
+      alert("Please select a departure date");
+      return;
+    }
+
+    // check if it is a round trip, that endDate is not null
+    if (isRoundTrip && endDate == null) {
+      alert("Please select a return date");
+      return;
+    }
+
+    // check that sourceid and destinationid are not the same
+    if (selectedFrom === selectedTo) {
+      alert("Source and destination cannot be the same");
+      return;
+    }
+
     const startMonth = startDate.getMonth() + 1;
     const startDay = startDate.getDate();
     const startYear = startDate.getFullYear();
@@ -94,6 +118,7 @@ function LandingPage() {
             if (json.data.returnPaths == null) {
               json.data.returnPaths = [];
             }
+            alert('We found some flights for you!! 🤑🤑🤑🤑. Click OK');
             navigate("/select", {
               state: {
                 departPaths: json.data.departPaths,
