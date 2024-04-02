@@ -112,7 +112,7 @@ const Receipt = () => {
         <hr className="text-gray-600 w-[500px]" />
 
         <h3 className="text-2xl font-semibold text-red-500">
-          Giga Air Time: {convertHour(data.data.totalairtime)} hours
+          Overall Air Time: {convertHour(data.data.totalairtime)} hours
         </h3>
       </div>
     </div>
