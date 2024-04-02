@@ -1,16 +1,7 @@
 import React from "react";
 import "./flight.css";
 
-interface FlightProps {
-  flightID: string;
-  planeName: string;
-  departureTime: string;
-  arrivalTime: string;
-  totalFlightTime: string;
-  withCheckBox: boolean;
-}
-
-const Flight: React.FC<FlightProps> = ({
+const Flight = ({
   flightID,
   planeName,
   departureTime,

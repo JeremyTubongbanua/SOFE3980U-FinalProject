@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Flight from "../components/flight";
 import { useNavigate } from "react-router-dom";
 
-const SelectFlight: React.FC<Props> = () => {
+const SelectFlight = () => {
   const navigate = useNavigate();
   const [nameValue, setNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -15,7 +15,7 @@ const SelectFlight: React.FC<Props> = () => {
     setEmailValue(event.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     fetch(

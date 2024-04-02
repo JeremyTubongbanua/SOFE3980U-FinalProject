@@ -1,20 +1,6 @@
 import React from "react";
 
-interface ReceiptFlightProps {
-  sourceID: string;
-  destinationID: string;
-  flightID: string;
-  planeName: string;
-  departureDate: string;
-  departureTime: number;
-  arrivalDate: string;
-  arrivalTime: number;
-  airTime: number;
-  totalFlightTime: number;
-  hour24Check: boolean;
-}
-
-const ReceiptFlight: React.FC<ReceiptFlightProps> = ({
+const ReceiptFlight = ({
   sourceID,
   destinationID,
   flightID,
