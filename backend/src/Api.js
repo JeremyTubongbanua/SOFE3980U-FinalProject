@@ -59,6 +59,25 @@ app.get('/generateoptions', (req, res) => {
     res.status(200).send({ status: 'success', data: data });
 });
 
+app.get('/calculateairtime', (req, res) => {
+    const query = req.query;
+    let flightids = query.flightids;
+    // check if all parameters are present
+    if (!flightids) {
+        res.status(400).send('Missing parameters: flightids: ' + flightids);
+        return;
+    }
+    flightids = JSON.parse(flightids);
+
+
+    let flights = []
+    for (let i = 0; i < flightids.length; i++) {
+        flights.push(getFlight(flightids[i]));
+    }
+    let totalairtime = calculateAirTimeFlights(flights);
+    res.status(200).send({ status: 'success', data: totalairtime });
+});
+
 app.get('/generatereceipt', (req, res) => {
     const query = req.query;
     let departureflightids = query.departureflightids;
