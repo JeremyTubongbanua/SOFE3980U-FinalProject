@@ -82,9 +82,9 @@ const SelectFlight: React.FC<Props> = () => {
       .catch((error) => console.error(error));
   };
 
-  const [departDataAirTimes, setDepartDataAirTimes] = useState([]);
-  const [returnDataAirTimes, setReturnDataAirTimes] = useState([]);
-
+  const [departDataAirTimes, setDepartDataAirTimes] = useState({});
+  const [returnDataAirTimes, setReturnDataAirTimes] = useState({});
+  
   const departData = location.state?.departPaths;
   const returnData = location.state?.returnPaths;
 
@@ -102,32 +102,34 @@ const SelectFlight: React.FC<Props> = () => {
           console.log(json);
           const totalFlightTime = json.data;
           setDepartDataAirTimes((prevState, props) => {
-            return [...prevState, totalFlightTime];
+            return {...prevState, [flightids]: totalFlightTime};
           });
+          console.log('Generated time for flightids' + totalFlightTime + ' ' + flightids)
         })
         .catch((error) => console.error(error));
-    });
-    console.log("departdads: " + departDataAirTimes);
+      })
   }, []);
 
   useEffect(() => {
     const returnData = location.state?.returnPaths;
 
-    if (returnData.length !== 0) {
-      returnData.map((flights) => {
-        let url = "http://jeremymark.ca:3001/calculateairtime?flightids=[";
-        let flightids = flights.map((flight) => flight.flightid).join(",");
-        url += flightids;
-        url += "]";
-        console.log(url);
-        fetch(url)
-          .then((response) => response.json())
-          .then((json) => {
-            console.log(json);
-            const totalFlightTime = json.data;
-            setReturnDataAirTimes((prevState, props) => {
-              return [...prevState, totalFlightTime];
-            });
+      if(returnData.length !== 0) {
+        returnData.map((flights) =>  {
+          let url = 'http://jeremymark.ca:3001/calculateairtime?flightids=[';
+          let flightids = flights.map(flight => flight.flightid).join(',');
+          url += flightids;
+          url += ']';
+          console.log(url);
+          fetch(url)
+            .then((response) => response.json())
+            .then((json) => {
+              console.log(json);
+              const totalFlightTime = json.data;
+              setReturnDataAirTimes((prevState, props) => {
+                return {...prevState, [flightids]: totalFlightTime};
+              });
+            })
+            .catch((error) => console.error(error));
           })
           .catch((error) => console.error(error));
       });
@@ -156,27 +158,22 @@ const SelectFlight: React.FC<Props> = () => {
 
             <fieldset className="flex flex-col gap-5" name="departureOption">
               {departData.map((flights, index) => {
-                return (
-                  <div>
-                    <span>
-                      <div className="flex gap-4 items-center">
-                        <h3 className="font-semibold text-gray-500 text-xl">
-                          Option {index + 1}
-                        </h3>
-                        <input
-                          className="h-[20px] w-[20px]"
-                          type="radio"
-                          id={"option-" + (index + 1)}
-                          name="returns"
-                          onClick={() => {
-                            setSelectedDepartureFlightIds(
-                              (prevState, props) => {
-                                return [
-                                  flights.map((flight) => flight.flightid),
-                                ];
-                              }
-                            );
-                          }}
+                let flightids = flights.map(flight => flight.flightid).join(',');
+                  return (
+                    <div>
+                      <span>
+                        <h5>Option {index+1}</h5>
+                        <h4 key={flights[0].flightid + 'a'}>Total Flight Time: {departDataAirTimes[flightids]}</h4>
+                      </span>
+                      <div>
+                        <input type="radio" id={'option-' + (index+1)} name="departureOption" onClick={
+                          () => {
+                            setSelectedDepartureFlightIds((prevState, props) => {
+                              return [flights.map(flight => flight.flightid)];
+                            })
+                          }
+                        }
+                        
                         />
                       </div>
                       <h4 className="font-semibold text-gray-800 text-lg mb-2">
