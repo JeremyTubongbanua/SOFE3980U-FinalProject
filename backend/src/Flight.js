@@ -150,7 +150,7 @@ for(let date = new Date('2024-03-30'); date <= new Date('2024-04-10'); date.setD
         flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 900, "YVR", "YYZ"));
         flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 100, "YYZ", "YVR"));
         flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 200, "YVR", "YOO"));
-        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 900, "YOO", "SFO"));
+        flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 400, "YOO", "SFO"));
         flights.push(newFlight(i++, "Boeing 747", formatDate(date), h, formatDate(date), h + 400, "YYC", "YYZ"));        
     }
     console.log(formatDate(date));
