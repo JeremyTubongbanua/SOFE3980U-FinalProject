@@ -151,10 +151,12 @@ departData.map((flights) =>  {
                         <input type="radio" id={'option-' + (index+1)} name="departureOption" onClick={
                           () => {
                             setSelectedDepartureFlightIds((prevState, props) => {
-                              return [...prevState, flights.map(flight => flight.flightid)];
+                              return [flights.map(flight => flight.flightid)];
                             })
                           }
-                        }/>
+                        }
+                        
+                        />
                         <label htmlFor={'option-' + (index+1)}>Option {index+1}</label>
                       </div>
                       <FlightBox
@@ -194,7 +196,7 @@ departData.map((flights) =>  {
                         <input type="radio" id={'option-' + (index+1)} name="returns" onClick={
                           () => {
                             setSelectedReturnFlightIds((prevState, props) => {
-                              return [...prevState, flights.map(flight => flight.flightid)];
+                              return [flights.map(flight => flight.flightid)];
                             })
                           }
                         }/>
